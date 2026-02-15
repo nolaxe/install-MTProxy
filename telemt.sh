@@ -21,7 +21,7 @@ read -p "Enter domain (default $SITE): " input_site
 SITE=${input_site:-$SITE}
 
 # Generate credentials
-SECRET="dd$(openssl rand -hex 16)"
+SECRET=$(openssl rand -hex 16)
 
 # Create telemt.toml
 cat > telemt.toml <<EOF
