@@ -12,9 +12,11 @@
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt.sh")
 ```
+<img width="819" height="213" alt="image" src="https://github.com/user-attachments/assets/d66c0710-2dbc-4af7-bf0c-5e369c19d162" />
 
 ----
-🚀 whn0thacked/telemt-docker это:  
+----
+🚀 telemt-docker это:  
 Минималистичный (3,5мб), безопасный и готовый Docker-образ - MTProto-прокси сервера, переписанного на Rust + Tokio. Собран как полностью статический исполняемый файл и поставляется в образе distroless, запускается от имени обычного пользователя (non-root).
 
 ----
