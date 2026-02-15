@@ -125,7 +125,7 @@ fi
 #  File Generation 
 prepare_files
 info "Generating configuration..."
-SECRET="dd$(openssl rand -hex 16)"
+SECRET=$(openssl rand -hex 16)
 
 cat > "$CONFIG_FILE" <<EOF
 show_link = ["docker"]
