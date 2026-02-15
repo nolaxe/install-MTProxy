@@ -27,9 +27,6 @@ SECRET=$(openssl rand -hex 16)
 cat > telemt.toml <<EOF
 [general]
 fast_mode = true
-[general.modes]
-classic = false
-secure = false
 tls = true
 [server]
 port = $PORT
