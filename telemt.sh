@@ -1,12 +1,27 @@
 #!/bin/bash
-# ee ?, new sec?
+
+# Distroless Image for Telemt - a fast Rust-based MTProxy (MTProto) server
+# chmod +x ./telemt.sh
+# ./telemt.sh
 
 #  Configuration 
 PORT="4433"
 SITE="google.com"
+
 CONFIG_FILE="telemt.toml"
 COMPOSE_FILE="docker-compose.yml"
-IMAGE_NAME="whn0thacked/telemt-docker:latest"
+
+# docker images:
+# Distroless cборка https://github.com/telemt/telemt от whn0thacked
+# IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
+
+# Distroless cборка https://github.com/telemt/telemt от whn0thacked (Копия)
+# IMAGE_NAME="exalon/telemt-docker:latest"  # https://hub.docker.com/repository/docker/exalon/telemt-docker/general
+
+# new Distroless cборка https://github.com/telemt/telemt 
+IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/exalon/telemt/general
+
+# REPO_URL="https://github.com/telemt/telemt.git"
 OVERWRITE=true
 
 #  Colors 
@@ -32,8 +47,7 @@ get_public_ip() {
 print_proxy_link() {
     local p=$1 s=$2
     local ip=$(get_public_ip)
-	
-	# Кодируем домен в hex (google.com -> 676f6f676c652e636f6d)
+    # Кодируем домен в hex (google.com -> 676f6f676c652e636f6d)
     local domain_hex=$(echo -n "$SITE" | od -A n -t x1 | tr -d ' \n')
     # Склеиваем префикс 'ee' + секрет + hex домена
     local full_secret="ee${s}${domain_hex}"
@@ -67,9 +81,30 @@ set -e
 clear
 echo -e "${GREEN}"
 echo "╔════════════════════════════════════════════════════╗"
-echo "║             Telemt MTProxy Installer               ║"
+echo "║              MTProxy (Telemt) Installer            ║"
 echo "╚════════════════════════════════════════════════════╝"
-echo -e "${NC}"
+echo -e "${NC}image: $IMAGE_NAME\n"
+
+# --- ПРОВЕРКА И УСТАНОВКА DOCKER ---
+if ! command -v docker >/dev/null 2>&1; then
+    echo -e "${YELLOW}[!] Docker не найден. Начинаю установку...${NC}"
+    curl -fsSL https://get.docker.com | sh
+    systemctl enable --now docker
+    echo -e "${GREEN}[OK] Docker успешно установлен.${NC}"
+else
+    # Если docker есть, проверим запущен ли он
+    if ! systemctl is-active --quiet docker; then
+        echo -e "${YELLOW}[!] Служба Docker найдена, но не запущена. Запускаю...${NC}"
+        systemctl start docker
+    fi
+fi
+
+# Проверка docker compose (новые версии идут как плагин)
+if ! docker compose version >/dev/null 2>&1; then
+    echo -e "${YELLOW}[!] Docker Compose не найден. Устанавливаю плагин...${NC}"
+    apt-get update && apt-get install -y docker-compose-plugin
+fi
+# ------------------------------------
 
 is_running && echo -e "Status: ${GREEN}Running !!!${NC}\n"
 
@@ -119,16 +154,24 @@ esac
 command -v openssl >/dev/null || { info "Installing openssl..."; apt-get update && apt-get install -y openssl; }
 command -v docker >/dev/null || { err "Docker not found."; exit 1; }
 
-# Initialize default values and generate secret early
-AD_TAG="00000000000000000000000000000000"
-# SECRET=$(openssl rand -hex 16)
+# AD_TAG todo
+AD_TAG="000empty000"
+
+#  Secret Management
 if [ -f "$CONFIG_FILE" ]; then
-    SECRET=$(grep "docker =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
-    info "Using existing secret from config."
+    OLD_SECRET=$(grep "docker =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
+    echo -e "${YELLOW}[?] Config found. Use existing secret? ($OLD_SECRET)${NC}"
+    read -p "   [ENTER] to keep current, type anything for a NEW one: " -r
+    if [[ -z $REPLY ]]; then
+        SECRET=$OLD_SECRET
+        info "Keeping existing secret."
+    else
+        SECRET=$(openssl rand -hex 16)
+        info "New secret generated: $SECRET"
+    fi
 else
-    # Если конфига нет — создаем новый один раз
     SECRET=$(openssl rand -hex 16)
-    info "New secret generated."
+    info "No config found. Generated secret: $SECRET"
 fi
 
 
@@ -137,13 +180,13 @@ if [ "$OVERWRITE" = false ]; then
     PORT=${input_port:-$PORT}
     read -p "> Enter domain (default $SITE): " input_site
     SITE=${input_site:-$SITE}
-	
-	# Display connection details for the user before Ad_tag prompt
-    echo -e "\n${CYAN}--- Current Proxy Connection ---${NC}"
-    echo -e "IP:Port: ${GREEN}$(get_public_ip):$PORT${NC}"
-    echo -e "Secret:  ${GREEN}ee$SECRET${NC}"
-    echo -e "${CYAN}--------------------------------${NC}"
     
+	# Display connection details for the user before Ad_tag prompt
+    echo -e "\n${CYAN}--- Current Proxy Connection for @MTProxybot---${NC}"
+    echo -e "IP:Port: ${GREEN}$(get_public_ip):$PORT${NC}"
+    echo -e "Secret:  ${GREEN}$SECRET${NC}"
+    echo -e "${CYAN}--------------------------------${NC}"    
+
     # Prompt for Ad_tag (Promotion tag)
     read -p "> Enter Ad_tag (press ENTER to skip): " input_tag
     AD_TAG=${input_tag:-$AD_TAG}
@@ -164,10 +207,11 @@ cat > "$CONFIG_FILE" <<EOF
 show_link = ["docker"]
 [general]
 fast_mode = true
+use_middle_proxy = true
 [general.modes]
 classic = false
 secure = false
-#tls = true
+tls = true
 [server]
 port = $PORT
 listen_addr_ipv4 = "0.0.0.0"
@@ -198,7 +242,7 @@ services:
       - ./$CONFIG_FILE:/etc/telemt.toml:ro
     ports:
       - "$PORT:$PORT/tcp"
-      - "127.0.0.1:9090:9090/tcp"
+#      - "127.0.0.1:9090:9090/tcp"
     cap_add:
       - NET_BIND_SERVICE
     read_only: true
