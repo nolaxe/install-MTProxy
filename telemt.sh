@@ -1,21 +1,24 @@
 #!/bin/bash
 
 # Distroless Image for Telemt - a fast Rust-based MTProxy (MTProto) server
+# Usage:
 # chmod +x ./telemt.sh
 # ./telemt.sh
 
-#  Configuration 
+# --- Configuration ---
 PORT="4433"
 SITE="google.com"
 
 CONFIG_FILE="telemt.toml"
 COMPOSE_FILE="docker-compose.yml"
 
+AD_TAG="000empty000" # Default Promotion Tag
+
 # docker images:
-# Distroless cборка https://github.com/telemt/telemt от whn0thacked
+# Distroless build of https://github.com/telemt/telemt by whn0thacked
 # IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
 
-# Distroless cборка https://github.com/telemt/telemt от whn0thacked (Копия)
+# Distroless build of https://github.com/telemt/telemt by whn0thacked (Копия)
 # IMAGE_NAME="exalon/telemt-docker:latest"  # https://hub.docker.com/repository/docker/exalon/telemt-docker/general
 
 # new Distroless cборка https://github.com/telemt/telemt 
@@ -24,14 +27,14 @@ IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/ex
 # REPO_URL="https://github.com/telemt/telemt.git"
 OVERWRITE=true
 
-#  Colors 
+# --- Colors ---
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-#  Functions 
+# --- Functions ---
 info()  { echo -e "${GREEN}[INFO]${NC} $*"; }
 warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; } 
 err()   { echo -e "${RED}[ERROR]${NC} $*"; }
@@ -76,7 +79,7 @@ prepare_files() {
     done
 }
 
-#  Initialization 
+# --- Initialization ---
 set -e
 clear
 echo -e "${GREEN}"
@@ -85,42 +88,43 @@ echo "║              MTProxy (Telemt) Installer            ║"
 echo "╚════════════════════════════════════════════════════╝"
 echo -e "${NC}image: $IMAGE_NAME\n"
 
-# --- ПРОВЕРКА И УСТАНОВКА DOCKER ---
+# --- Docker Check & Installation ---
 if ! command -v docker >/dev/null 2>&1; then
-    echo -e "${YELLOW}[!] Docker не найден. Начинаю установку...${NC}"
+    echo -e "${YELLOW}[!] Docker not found. Starting installation...${NC}"
     curl -fsSL https://get.docker.com | sh
     systemctl enable --now docker
-    echo -e "${GREEN}[OK] Docker успешно установлен.${NC}"
+    echo -e "${GREEN}[OK] Docker installed successfully.${NC}"
 else
-    # Если docker есть, проверим запущен ли он
+    # Start Docker if the service is inactive
     if ! systemctl is-active --quiet docker; then
-        echo -e "${YELLOW}[!] Служба Docker найдена, но не запущена. Запускаю...${NC}"
+        echo -e "${YELLOW}[!] Docker service found but not running. Starting...${NC}"
         systemctl start docker
     fi
 fi
 
-# Проверка docker compose (новые версии идут как плагин)
+# Docker Compose
 if ! docker compose version >/dev/null 2>&1; then
-    echo -e "${YELLOW}[!] Docker Compose не найден. Устанавливаю плагин...${NC}"
+    echo -e "${YELLOW}[!] Docker Compose plugin not found. Installing...${NC}"
     apt-get update && apt-get install -y docker-compose-plugin
 fi
-# ------------------------------------
 
+
+# --- Menu ---
 is_running && echo -e "Status: ${GREEN}Running !!!${NC}\n"
 
-echo -e "Select action:"
-echo -e " 1) ${CYAN}Fast Install${NC}     (Port: $PORT, Domain: $SITE)"
-echo -e " 2) ${CYAN}Manual Install${NC}   (Custom settings)"
+echo -e "Select action: "
+echo -e " 1) Fast Install     (Port: $PORT, Domain: $SITE)"
+echo -e " 2) ${CYAN}Custom Install${NC}   (Custom settings)"
 if is_running; then
-    echo -e " 3) ${YELLOW}Stop Proxy${NC}       Status: ${GREEN}Running${NC}"
+    echo -e " 3) ${YELLOW}Stop Proxy${NC}      (Current status: ${GREEN}Running${NC})"
 else
-    echo -e " 3) ${YELLOW}Start Proxy${NC}      Status: ${RED}Stopped${NC}"
+    echo -e " 3) ${YELLOW}Stop\Start Proxy${NC} (Current status: ${RED}Stopped\Not installed${NC})"
 fi
 echo -e " 4) ${RED}Full Uninstall${NC}"
 echo -ne "\n${YELLOW}Choose option [1-4]:${NC} "
 read -r INSTALL_MODE
 
-#  Logic Selection 
+# --- Logic Selection ---
 case $INSTALL_MODE in
     1) info "Mode: Fast Install" ;;
     2) OVERWRITE=false; info "Mode: Manual Install" ;;
@@ -135,13 +139,22 @@ case $INSTALL_MODE in
                 print_proxy_link "$S_PORT" "$S_SEC"
             fi
         else
-            err "Not installed yet."
+            err "Proxy is not installed yet"
         fi
         exit 0 ;;
     4)
-        warn "This will remove EVERYTHING."
-        read -p "Are you sure? [ENTER] to confirm or type anything to cancel: " -r; echo
+        warn "This will remove EVERYTHING related to Telemt"
+        read -p "[?] Are you sure? [ENTER] to confirm or type anything to cancel: " -r; echo
         if [[ -z $REPLY ]]; then
+		## удаление правил из UFW
+			if [ -f "$CONFIG_FILE" ]; then
+                OLD_PORT=$(grep "port =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' ')
+                if [ -n "$OLD_PORT" ] && command -v ufw >/dev/null; then
+                    info "Closing port $OLD_PORT in UFW..."
+                    ufw delete allow "$OLD_PORT"/tcp || true
+                fi
+            fi		
+		## 
             [ -f "$COMPOSE_FILE" ] && docker compose down --rmi all
             rm -f "$CONFIG_FILE" "$COMPOSE_FILE"
             info "Uninstall complete."
@@ -150,14 +163,11 @@ case $INSTALL_MODE in
     *) err "Invalid option."; exit 1 ;;
 esac
 
-#  Dependency & Config 
+# --- Dependencies & Configuration ---
 command -v openssl >/dev/null || { info "Installing openssl..."; apt-get update && apt-get install -y openssl; }
 command -v docker >/dev/null || { err "Docker not found."; exit 1; }
 
-# AD_TAG todo
-AD_TAG="000empty000"
-
-#  Secret Management
+# --- Secret Management ---
 if [ -f "$CONFIG_FILE" ]; then
     OLD_SECRET=$(grep "docker =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
     echo -e "${YELLOW}[?] Config found. Use existing secret? ($OLD_SECRET)${NC}"
@@ -171,13 +181,33 @@ if [ -f "$CONFIG_FILE" ]; then
     fi
 else
     SECRET=$(openssl rand -hex 16)
-    info "No config found. Generated secret: $SECRET"
+    info "Generated secret: $SECRET"
 fi
 
-
+# --- Manual Configuration ---
 if [ "$OVERWRITE" = false ]; then
-    read -p "> Enter port (default $PORT): " input_port
-    PORT=${input_port:-$PORT}
+    # read -p "> Enter port (default $PORT): " input_port
+    # PORT=${input_port:-$PORT}
+	
+	# Start a loop to ensure the selected port is actually available
+    while true; do
+        read -p "> Enter port (default $PORT): " input_port
+        PORT=${input_port:-$PORT}
+
+        # Check if the port is already in use by any process
+        # lsof returns 0 if the port is busy, so we trigger the warning
+        if lsof -i :"$PORT" -sTCP:LISTEN -t >/dev/null ; then
+            warn "Port $PORT is already occupied!"
+            # Show the user which process is holding the port
+            lsof -i :"$PORT" -sTCP:LISTEN
+            echo -e "${YELLOW}Please choose a different port or stop the service above.${NC}"
+        else
+            # Port is free, proceed with the installation
+            info "Port $PORT is available."
+            break
+        fi
+    done
+		
     read -p "> Enter domain (default $SITE): " input_site
     SITE=${input_site:-$SITE}
     
@@ -189,8 +219,7 @@ if [ "$OVERWRITE" = false ]; then
 
     # Prompt for Ad_tag (Promotion tag)
     read -p "> Enter Ad_tag (press ENTER to skip): " input_tag
-    AD_TAG=${input_tag:-$AD_TAG}
-	
+    AD_TAG=${input_tag:-$AD_TAG}	
 fi
 
 if command -v ufw >/dev/null && ufw status | grep -q "active"; then
@@ -198,10 +227,9 @@ if command -v ufw >/dev/null && ufw status | grep -q "active"; then
     ufw allow "$PORT"/tcp
 fi
 
-#  File Generation 
+# --- File Generation ---
 prepare_files
-info "Generating configuration..."
-#SECRET=$(openssl rand -hex 16)
+info "Generating configuration files..."
 
 cat > "$CONFIG_FILE" <<EOF
 show_link = ["docker"]
@@ -254,7 +282,8 @@ EOF
 if [ "$OVERWRITE" = true ]; then
     deploy_container
 else
-    read -p "> 🚀 Start now? [ENTER] to confirm or type anything to cancel: " -r; echo
+
+	read -p "$(echo -e "> 🚀 ${GREEN}Start now?${NC} [ENTER] to confirm: ")" -r; echo    
     [[ -z $REPLY ]] && deploy_container
 fi
 
@@ -263,5 +292,5 @@ echo -e "\n🎉 Done!"
 if is_running; then
     print_proxy_link "$PORT" "$SECRET"
 else
-    info "Status: Stopped. Use option 3 to start."
+    info "Status: Stopped. Use option 3 to start the proxy."
 fi
