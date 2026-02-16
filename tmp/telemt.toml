@@ -1,0 +1,25 @@
+show_link = ["docker"]
+[general]
+fast_mode = true
+[general.modes]
+classic = false
+secure = false
+tls = true
+[server]
+port = 4433
+listen_addr_ipv4 = "0.0.0.0"
+listen_addr_ipv6 = "::"
+#metrics_port = 9090
+#metrics_whitelist = ["0.0.0.0", "::1"]
+[[server.listeners]]
+ip = "0.0.0.0"
+[timeouts]
+client_handshake = 15
+tg_connect = 10
+client_keepalive = 60
+client_ack = 300
+[censorship]
+tls_domain = "google.com"
+mask = true
+[access.users]
+docker = "secret"
