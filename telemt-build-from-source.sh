@@ -28,11 +28,11 @@ print_proxy_link() {
     local ip=$(get_public_ip)
     local domain_hex=$(echo -n "$site_name" | od -A n -t x1 | tr -d ' \n')
     local full_secret="ee${s}${domain_hex}"
-	#
-	echo -e "=========================================================="
-	echo -e "Copy the link below to Telegram and click it to activate the proxy"
+    #
+    echo -e "=========================================================="
+    echo -e "Copy the link below to Telegram and click it to activate the proxy"
     echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=$full_secret${NC}"
-	echo -e "=========================================================="
+    echo -e "=========================================================="
 }
 
 # --- Initialization ---
@@ -113,11 +113,12 @@ services:
       context: .
       dockerfile: Dockerfile.hardened
     container_name: telemt
+    #
     restart: unless-stopped
-    ports:
-      - "${PORT}:${PORT}/tcp"
     volumes:
       - ./$CONFIG_FILE:/etc/telemt.toml:ro
+    ports:
+      - "${PORT}:${PORT}/tcp"
     cap_drop:
       - ALL
     cap_add:
@@ -125,6 +126,13 @@ services:
     read_only: true
     security_opt:
       - no-new-privileges:true
+    tmpfs:
+      - /run/telemt:rw,nosuid,nodev,noexec,mode=1777,size=1m
+      - /tmp:rw,nosuid,nodev,noexec,size=16m
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 EOF
 
         info "[3/3] Building and starting (Wait ~3-5 min)..."
