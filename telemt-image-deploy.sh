@@ -11,7 +11,7 @@
 IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
 
 # 2
-# Distroless build of https://github.com/telemt/telemt by whn0thacked (Copy)
+# Distroless build of https://github.com/telemt/telemt by whn0thacked (Copywhn0thacked at 2026-02-16)
 # IMAGE_NAME="exalon/telemt-docker:latest"  # https://hub.docker.com/repository/docker/exalon/telemt-docker/general
 
 # 3
@@ -361,3 +361,4 @@ if is_running; then
 else
     info "Status: Stopped. Use option 3 to start the proxy."
 fi
+#mn#
