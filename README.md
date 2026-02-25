@@ -18,7 +18,7 @@ Cкрипт для развертывания минималистичного �
 
 ####  🛠  Для выполнения скрипта вставьте и запустите эту команду в терминал вашего сервера:
 ```
-bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt.sh")
+bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-image-deploy.sh")
 ```
 <img width="819" height="213" alt="image" src="https://github.com/user-attachments/assets/d66c0710-2dbc-4af7-bf0c-5e369c19d162" />
 
