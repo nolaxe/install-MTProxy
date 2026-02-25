@@ -215,10 +215,11 @@ status_detection() {
 }
 
 gui_top() {
-    echo -e ""
-    echo -e "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-    echo -e "┃              MTProxy (Telemt) Installer            ┃"
-    echo -e "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+echo -e "${GREEN}"
+echo "╔════════════════════════════════════════════════════╗"
+echo "║              MTProxy (Telemt) Installer            ║"
+echo "╚════════════════════════════════════════════════════╝"
+echo -e "${NC}Build from existing image: $IMAGE_NAME"
 }
 
 main_menu() {
