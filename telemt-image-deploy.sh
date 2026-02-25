@@ -2,19 +2,19 @@
 
 # Distroless Image for Telemt - a fast Rust-based MTProxy (MTProto) server
 # Usage:
-# chmod +x ./telemt.sh
-# ./telemt.sh
+# chmod +x ./telemt-image-deploy.sh
+# ./telemt-image-deploy.sh
 
 # --- docker images:     --------------------------------------------
-# 1
+# 1 whn0thacked
 # Distroless build of https://github.com/telemt/telemt by whn0thacked
 IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
 
-# 2
+# 2 whn0thacked
 # Distroless build of https://github.com/telemt/telemt by whn0thacked (Copywhn0thacked at 2026-02-16)
 # IMAGE_NAME="exalon/telemt-docker:latest"  # https://hub.docker.com/repository/docker/exalon/telemt-docker/general
 
-# 3
+# 3 telem
 # new Distroless build of https://github.com/telemt/telemt 
 # IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/exalon/telemt/general
 # --------------------------------------------------------------------
