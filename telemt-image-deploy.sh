@@ -8,7 +8,7 @@
 # --- docker images:     --------------------------------------------
 # 1
 # Distroless build of https://github.com/telemt/telemt by whn0thacked
-# IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
+IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
 
 # 2
 # Distroless build of https://github.com/telemt/telemt by whn0thacked (Copy)
@@ -16,7 +16,7 @@
 
 # 3
 # new Distroless build of https://github.com/telemt/telemt 
-IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/exalon/telemt/general
+# IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/exalon/telemt/general
 # --------------------------------------------------------------------
 
 # --- Def Conf ---
