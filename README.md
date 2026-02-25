@@ -62,4 +62,5 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 ----
 
 ####  🔗 Полезные ссылки  
-Docker Hub: [whn0thacked/telemt-docker](https://hub.docker.com/r/whn0thacked/telemt-docker)
+Источник: Telemt - MTProxy on Rust + Tokio: https://github.com/telemt/telemt
+Сборка образа: https://github.com/An0nX/telemt-docker / [whn0thacked/telemt-docker](https://hub.docker.com/r/whn0thacked/telemt-docker)
