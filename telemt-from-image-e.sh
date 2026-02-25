@@ -215,10 +215,11 @@ status_detection() {
 }
 
 gui_top() {
-    echo -e ""
-    echo -e "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-    echo -e "┃              MTProxy (Telemt) Installer            ┃"
-    echo -e "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+echo -e "${GREEN}"
+echo "╔════════════════════════════════════════════════════╗"
+echo "║              MTProxy (Telemt) Installer            ║"
+echo "╚════════════════════════════════════════════════════╝"
+echo -e "${NC}Build from existing image: $IMAGE_NAME"
 }
 
 main_menu() {
@@ -422,13 +423,5 @@ else
 fi
 
 is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
-
-#  Output
-# echo -e "\n🎉 Done!"
-# if is_running; then
-#     print_proxy_link "$PORT" "$SECRET"
-# else
-#     info "Status: Stopped. Use option 3 to start the proxy."
-# fi
 
 #mn#
