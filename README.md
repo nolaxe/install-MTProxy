@@ -2,7 +2,7 @@
 
 ###  Запустите эту команду в терминал вашего сервера:
 ```
-bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-image-deploy.sh")
+bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
 ```
 #### Описание:  
 Cкрипт для развертывания минималистичного и безопасного MTProto-прокси на базе **Rust + Tokio**
