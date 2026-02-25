@@ -51,7 +51,7 @@ print_proxy_link() {
 # --- Initialization ---
 clear
 echo -e "${GREEN}=== Telemt Custom Distroless Builder ===${NC}"
-echo -e "${CYAN}Source Code:${NC} $REPO_URL"
+echo -e "${CYAN}Source :${NC} $REPO_URL"
 
 if [ -d "$REPO_DIR" ]; then
     echo -e "Status:"
