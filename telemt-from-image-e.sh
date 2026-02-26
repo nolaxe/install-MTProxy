@@ -96,17 +96,7 @@ start_container() {
 prepare_files() {
 info "Cleaning up old configuration files..."
 rm -f "$CONFIG_FILE" "$COMPOSE_FILE"
-/*
-    for file in "$CONFIG_FILE" "$COMPOSE_FILE"; do
-        if [ -f "$file" ]; then
-            if [ "$OVERWRITE" = false ]; then
-                read -p "[?] $file exists. [ENTER] to confirm or type anything to cancel: " -r; echo
-                [[ -n $REPLY ]] && { err "Cancelled."; exit 1; }
-            fi
-            rm "$file"
-        fi
-    done
-*/
+
 }
 
 # Check and install Docker, Docker Compose, and dependencies
