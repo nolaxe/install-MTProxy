@@ -47,10 +47,11 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 
 **Скрипт запуска**
 
-3) Вставляем в терминал строку со скриптом (копировать, пкм в поле терминала вставит текст из буфера)
+3) Вставляем в терминал строку
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
 ```
+копировать, пкм в поле терминала вставит текст из буфера, ввод
 <img width="519" height="213" alt="image" src="https://github.com/user-attachments/assets/8e825430-5714-460e-8595-7a82cc9b5633" />
 
 4) После завершения скрипт выдаст ссылку вида:  
