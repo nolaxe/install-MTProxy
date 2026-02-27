@@ -40,8 +40,8 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
   
 ---
 вариант 2  
-###  Самостоятельная сборка образа, разворачивание на сервере (без проверки и установки зависимостей)
-для сборки необходимо иметь более 0,5GB памяти на сервере
+###  Самостоятельная сборка образа, разворачивание на сервере
+без проверки и установки зависимостей, для сборки необходимо иметь более 0,5GB памяти на сервере
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-source.sh")
 ```
