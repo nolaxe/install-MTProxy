@@ -20,10 +20,10 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 
 ####  🛠  Процесс установки:  
 `выбор действия`  
-<img width="753" height="286" alt="image" src="https://github.com/user-attachments/assets/3f0f40a1-0665-44bc-b65a-177fb719afea" />
+<img width="753" height="291" alt="image" src="https://github.com/user-attachments/assets/01ab9b46-d91c-41c7-b8dc-6c88fabe57e6" />
 
 `подготовка зависимостей`  
-<img width="753" height="139" alt="image" src="https://github.com/user-attachments/assets/c8e35708-9176-41e8-b9a0-dcb8d7c2b2bb" />
+<img width="753" height="156" alt="image" src="https://github.com/user-attachments/assets/0d5613ac-8023-44be-a9c0-f9ac35e855e0" />
 
 `разворачивание`  
 <img width="753" height="263" alt="image" src="https://github.com/user-attachments/assets/b2071e4e-7a4d-4f2d-8549-5e84f31c578c" />
@@ -36,11 +36,12 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 #### 📦 Особенности образа TeleMT
 - Минимальный размер.
 - Безопасность: Сборка `distroless`
-- Заапуск от non-root пользователя.
+- Запуск от non-root пользователя.
   
 ---
 вариант 2  
 ###  Самостоятельная сборка образа, разворачивание на сервере (без проверки и установки зависимостей)
+для сборки необходимо иметь более 0,5GB памяти на сервере
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-source.sh")
 ```
