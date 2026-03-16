@@ -29,7 +29,7 @@ CONFIG_FILE="telemt.toml"
 COMPOSE_FILE="docker-compose.yml"
 AD_TAG="000empty000"
 
-BUILD_SCRIPT_URL="https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-build-from-source.sh"
+BUILD_SCRIPT_URL="https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-source.sh"
 SCRIPT_NAME=$(basename "$BUILD_SCRIPT_URL")        
 
 # --- Colors ---
