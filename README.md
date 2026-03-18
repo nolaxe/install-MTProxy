@@ -16,7 +16,7 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 - Скачивает образ с Docker (источник `https://hub.docker.com/r/whn0thacked/telemt-docker`)  
 - Генерирует файлы telemt.toml, docker-compose.yml, ключ
 - Запускает установку  
-допом испольуется как менеджер управления (показывает статус, позволяет отключить\включить прокси)
+допом скриптом можно отключить\включить прокси
 
 ####  🛠  Процесс установки:  
 `выбор действия`  
