@@ -53,8 +53,8 @@ err()   { echo -e "${RED}[ERROR]${NC} $*"; }
 # Check if container is running
 is_running() { [ "$(docker inspect -f '{{.State.Running}}' telemt 2>/dev/null)" == "true" ]; }
 
-# Get public IP address
-get_public_ip() { curl -s --max-time 5 ifconfig.me || echo "YOUR_IP"; }
+# Get public IP4 address
+get_public_ip() { curl -4 -s --max-time 5 ifconfig.me || echo "YOUR_IP"; }
 
 # Generate and display the MTProto proxy link
 print_proxy_link() {
