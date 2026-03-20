@@ -30,7 +30,7 @@ warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; }
 err()   { echo -e "${RED}[ERROR]${NC} $*"; }
 
 get_public_ip() {
-    curl -s --max-time 5 ifconfig.me || echo "YOUR_IP"
+    curl -4 -s --max-time 5 ifconfig.me || echo "YOUR_IP"
 }
 
 print_proxy_link() {
