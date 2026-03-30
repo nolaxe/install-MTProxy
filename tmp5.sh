@@ -200,8 +200,8 @@ check_and_install() {
 
 status_detection() {
     # 1. Check for the existence of the link file BEFORE checking Docker
-    if [ -f "proxy_link.txt" ]; then
-        local raw_link=$(head -n 1 proxy_link.txt)
+    if [ -f "proxy_link.txt" ]; then        
+        local raw_link=$(head -n 1 "$PROXY_LINK_FILE" | sed 's/.*tg:\/\//tg:\/\//')
         EXISTING_LINK="LINK:${GREEN}$raw_link${NC}"	
         info "Additional user links (if any) are in $PROXY_LINK_FILE"
     else
