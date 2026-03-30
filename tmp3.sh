@@ -347,31 +347,6 @@ else
     info "Generated secret: $SECRET"
 fi
 
-
-# --- Proxy Secret: Keep Existing or New---
-if [ -f "$CONFIG_FILE" ]; then
-    OLD_SECRET=$(grep "docker =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
-    echo -e "${YELLOW}[?] Config found. Use existing secret? ($OLD_SECRET)${NC}"
-    echo -e "${CYAN}    (Keeping the old secret will keep your current proxy link working)${NC}"
-
-    echo -ne "[?] Press [ENTER] to keep current, type anything for a NEW one: "
-    IFS= read -n 1 -s REPLY
-    echo ""
-
-    if [[ -z "$REPLY" ]]; then
-        SECRET=$OLD_SECRET
-        info "Keeping existing secret."
-    else
-        SECRET=$(openssl rand -hex 16)
-        info "New secret generated: $SECRET"
-        warn "Note: Old proxy links will no longer work!"
-    fi
-else
-    SECRET=$(openssl rand -hex 16)
-    info "Generated secret: $SECRET"
-fi
-
-
 # --- Custom setup parameters ---
 # - PORT: The TCP port the proxy listens on (verified via lsof)
 # - SITE: TLS domain for traffic masking (cloaking)
