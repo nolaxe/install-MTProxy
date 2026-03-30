@@ -67,13 +67,13 @@ print_proxy_link() {
     echo -e "🔗 ${CYAN}$link${NC}"
     echo -e "=========================================================="
 
-    # Достаем всех дополнительных юзеров из конфига
+    # Extract all additional users from the config
     if [ -f "$CONFIG_FILE" ]; then
-        grep -E "^user[0-9]+ =" "$CONFIG_FILE" | while read -r line; do
+    
+        grep -E "^Bastard [0-9]+ =" "$CONFIG_FILE" | while read -r line; do
             local u_name=$(echo $line | cut -d' ' -f1)
             local u_secret=$(echo $line | cut -d'"' -f2)
-            echo -e "----------------------------------------------------------"
-            echo -e "User: $u_name"
+            echo -e ": $u_name"
             echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
         done
     fi
@@ -370,19 +370,21 @@ if command -v ufw >/dev/null && ufw status | grep -q "active"; then
 fi
 
 
-# --- Настройка нескольких пользователей ---
+# --- Multiple Users Setup ---
 USER_CONFIG=""
 if [ "$OVERWRITE" = false ]; then
-    read -p "[?] Сколько дополнительных пользователей добавить? (0-16, по умолчанию 0): " user_count
+    read -p "[?] How many additional users to add? (0-16, default 0): " user_count
     user_count=${user_count:-0}
 
-    # Ограничиваем до 16
     if (( user_count > 16 )); then user_count=16; fi
 
     for (( i=1; i<=user_count; i++ )); do
+        read -p "[?] Enter username for user $i: " u_name
+        u_name=${u_name:-user$i}
+        
         new_secret=$(openssl rand -hex 16)
-        USER_CONFIG+=$'\n'"user$i = \"$new_secret\""
-        info "Добавлен user$i с секретом: $new_secret"
+        USER_CONFIG+=$'\n'"$u_name = \"$new_secret\""
+        info "Added $u_name with secret: $new_secret"
     done
 fi
 
