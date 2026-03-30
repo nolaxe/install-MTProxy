@@ -46,14 +46,10 @@ err()   { echo -e "${RED}[ERROR]${NC} $*"; }
 
 # Check for root privileges
 [ "$EUID" -ne 0 ] && { echo -e "${RED}[ERROR] Please run as root ${NC}"; exit 1; }
-
-
 # Check if container is running
 is_running() { [ "$(docker inspect -f '{{.State.Running}}' telemt 2>/dev/null)" == "true" ]; }
-
 # Get public IP address
 get_public_ip() { curl -4 -s --max-time 5 ifconfig.me || echo "YOUR_IP"; }
-
 # Generate and display the MTProto proxy link
 print_proxy_link() {
     local p=$1 s=$2
@@ -71,7 +67,6 @@ print_proxy_link() {
     # Extract additional users from the configuration file
     if [[ -f "$CONFIG_FILE" ]]; then
         echo -e "Additional user list:"
-
         # Locate the [access.users] section and process all lines containing '='
         sed -n '/\[access.users\]/,$p' "$CONFIG_FILE" | grep "=" | while read -r line; do
             # Extract username (before '=') and secret (inside quotes)
@@ -133,7 +128,6 @@ check_and_install() {
         info "Dependency check skipped by user"
         return 0
     fi
-
     # 2. Update package lists
     echo -ne "[>] Updating package lists... "
     if apt-get update -y >/dev/null 2>&1; then
@@ -141,7 +135,6 @@ check_and_install() {
     else
         echo -e "${RED}Failed${NC} (Check internet)"
     fi
-
     # 3. Docker
     echo -ne "[>] Checking Docker... "
     if command -v docker >/dev/null 2>&1; then
@@ -155,7 +148,6 @@ check_and_install() {
             exit 1 # Прерываем, если Docker не поставился
         fi
     fi
-
     # 4. Docker Compose
     echo -ne "[>] Checking Docker Compose... "
     if docker compose version >/dev/null 2>&1; then
@@ -169,7 +161,6 @@ check_and_install() {
             exit 1
         fi
     fi
-
 
     # 5. OpenSSL
     echo -ne "[>] Checking OpenSSL... "
