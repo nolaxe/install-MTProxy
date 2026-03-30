@@ -261,7 +261,7 @@ main_menu() {
     echo -e " 2) Custom Install           (Custom Port, Domain...)"    
     echo -e " 3) ${YELLOW}${TOGGLE_ACTION} ${NC}          $STATUS_MSG"
     echo -e " 4) ${RED}Full Uninstall${NC}           (Stop & Remove All)\n"
-    echo -e " 5) ${GREEN}Update Image${NC}             (Pull latest & Restart)/"
+    echo -e " 5) ${GREEN}Update Image${NC}             (Pull latest & Restart)"
     echo -e " 6) Run external build script: $SCRIPT_NAME"
     echo -ne "\n${YELLOW}[?] Choose option [1-5]:${NC} "
     read -r INSTALL_MODE
