@@ -61,7 +61,7 @@ print_proxy_link() {
     local domain_hex=$(echo -n "$SITE" | od -A n -t x1 | tr -d ' \n')
     local full_secret="ee${s}${domain_hex}"    
     local link="tg://proxy?server=$ip&port=$p&secret=$full_secret"
-    echo "$link" >> "$PROXY_LINK_FILE"   
+    echo "$link" > "$PROXY_LINK_FILE"   
 
     echo -e "=========================================================="
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
@@ -70,31 +70,21 @@ print_proxy_link() {
 
     # Extract all additional users from the config
     if [ -f "$CONFIG_FILE" ]; then    
-        grep -E "^Bastard [0-9]+ =" "$CONFIG_FILE" | while read -r line; do
-            local u_name=$(echo $line | cut -d' ' -f1)
-            local u_secret=$(echo $line | cut -d'"' -f2)
-            echo -e ": $u_name"
-            echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
-        done
-    fi
-    echo -e ".=-"
-    # Извлекаем всех пользователей, кроме стандартного 'docker'
-    if [ -f "$CONFIG_FILE" ]; then    
-        # Ищем строку [access.users] и берем всё, что после неё, до конца секции
+        # Ищем секцию [access.users] и читаем все строки с '=' после неё
         sed -n '/\[access.users\]/,$p' "$CONFIG_FILE" | grep "=" | while read -r line; do
             local u_name=$(echo "$line" | cut -d' ' -f1)
             local u_secret=$(echo "$line" | cut -d'"' -f2)
             
-            # Пропускаем основного системного пользователя, если нужно
+            # Пропускаем основного пользователя, так как он уже записан первым
             [[ "$u_name" == "docker" ]] && continue
             
-            echo -e ": $u_name"
-            echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
+            local u_link="tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}"
+            echo "$u_link" >> "$PROXY_LINK_FILE"            
+            echo -e "----------------------------------------------------------"
+            echo -e "User: $u_name"
+            echo -e "🔗 ${CYAN}$u_link${NC}"
         done
     fi
-
-
-
     
     echo -e "=========================================================="
     info "All links saved to $PROXY_LINK_FILE"
