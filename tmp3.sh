@@ -201,11 +201,11 @@ check_and_install() {
 
 status_detection() {
     # 1. Check for the existence of the link file BEFORE checking Docker
-    if [ -f ".txt" ]; then
-        local raw_link=$(head -n 1 .txt)
+    if [ -f "$PROXY_LINK_FILE" ]; then
+        local raw_link=$(head -n 1 "$PROXY_LINK_FILE")
         EXISTING_LINK="LINK:${GREEN}$raw_link${NC}"	
     else
-        EXISTING_LINK="${YELLOW}⚠️ File .txt not found (Install first)${NC}"
+        EXISTING_LINK="${YELLOW}⚠️ File $PROXY_LINK_FILE not found (Install first)${NC}"
     fi
 
     # 2. Check if installation files exist
@@ -293,7 +293,7 @@ case $INSTALL_MODE in
             # 2. Remove container and images (single line)
             [ -f "$COMPOSE_FILE" ] && { info "Cleaning Docker..."; docker compose down --rmi all --volumes --remove-orphans; }
             # 3. Clean files
-            rm -f "$CONFIG_FILE" "$COMPOSE_FILE" ".txt"
+            rm -f "$CONFIG_FILE" "$COMPOSE_FILE" "$PROXY_LINK_FILE"
             info "Uninstall complete. System is clean."
         fi
         exit 0 ;;
@@ -461,6 +461,5 @@ else
     [[ -z "$REPLY" ]] && deploy_container
 fi
 
-is_running && print_ "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
-
+is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
 #mn#
