@@ -66,6 +66,18 @@ print_proxy_link() {
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
     echo -e "🔗 ${CYAN}$link${NC}"
     echo -e "=========================================================="
+
+    # Достаем всех дополнительных юзеров из конфига
+    if [ -f "$CONFIG_FILE" ]; then
+        grep -E "^user[0-9]+ =" "$CONFIG_FILE" | while read -r line; do
+            local u_name=$(echo $line | cut -d' ' -f1)
+            local u_secret=$(echo $line | cut -d'"' -f2)
+            echo -e "----------------------------------------------------------"
+            echo -e "User: $u_name"
+            echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
+        done
+    fi
+    echo -e "=========================================================="
 }
 
 # Pull image and (re)start the Docker container
