@@ -291,10 +291,10 @@ case $INSTALL_MODE in
             err "Proxy is not installed yet"
         fi
         ;;
-    4)
+    4)               
         warn "This will remove EVERYTHING related to Telemt"
-        read -p "[?] Are you sure? Press [ENTER] to confirm or type anything to cancel: " -r; echo
-        IFS= read -r REPLY
+        echo -ne "${YELLOW}[?] Are you sure? Press [ENTER] to confirm or type anything to cancel:  ${NC}"
+        read -r CONFIRM       
         if [[ -z "$REPLY" ]]; then
             # 1. Remove rules from UFW (two lines: file check + actions)
             [ -f "$CONFIG_FILE" ] && { 
