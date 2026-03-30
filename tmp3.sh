@@ -24,6 +24,7 @@ SITE="google.com"
 OVERWRITE=true
 CONFIG_FILE="telemt.toml"
 COMPOSE_FILE="docker-compose.yml"
+PROXY_LINK_FILE="proxy_link.txt"
 AD_TAG="000empty000"
 
 BUILD_SCRIPT_URL="https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-source.sh"
@@ -60,7 +61,7 @@ print_proxy_link() {
     local domain_hex=$(echo -n "$SITE" | od -A n -t x1 | tr -d ' \n')
     local full_secret="ee${s}${domain_hex}"    
     local link="tg://proxy?server=$ip&port=$p&secret=$full_secret"
-    echo "$link" > "proxy_link.txt"
+    echo "$link" > "$PROXY_LINK_FILE"   
 
     echo -e "=========================================================="
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
@@ -68,8 +69,7 @@ print_proxy_link() {
     echo -e "=========================================================="
 
     # Extract all additional users from the config
-    if [ -f "$CONFIG_FILE" ]; then
-    
+    if [ -f "$CONFIG_FILE" ]; then    
         grep -E "^Bastard [0-9]+ =" "$CONFIG_FILE" | while read -r line; do
             local u_name=$(echo $line | cut -d' ' -f1)
             local u_secret=$(echo $line | cut -d'"' -f2)
@@ -78,6 +78,7 @@ print_proxy_link() {
         done
     fi
     echo -e "=========================================================="
+    info "All links saved to $PROXY_LINK_FILE"
 }
 
 # Pull image and (re)start the Docker container
@@ -200,11 +201,11 @@ check_and_install() {
 
 status_detection() {
     # 1. Check for the existence of the link file BEFORE checking Docker
-    if [ -f "proxy_link.txt" ]; then
-        local raw_link=$(head -n 1 proxy_link.txt)
+    if [ -f ".txt" ]; then
+        local raw_link=$(head -n 1 .txt)
         EXISTING_LINK="LINK:${GREEN}$raw_link${NC}"	
     else
-        EXISTING_LINK="${YELLOW}⚠️ File proxy_link.txt not found (Install first)${NC}"
+        EXISTING_LINK="${YELLOW}⚠️ File .txt not found (Install first)${NC}"
     fi
 
     # 2. Check if installation files exist
@@ -292,7 +293,7 @@ case $INSTALL_MODE in
             # 2. Remove container and images (single line)
             [ -f "$COMPOSE_FILE" ] && { info "Cleaning Docker..."; docker compose down --rmi all --volumes --remove-orphans; }
             # 3. Clean files
-            rm -f "$CONFIG_FILE" "$COMPOSE_FILE" "proxy_link.txt"
+            rm -f "$CONFIG_FILE" "$COMPOSE_FILE" ".txt"
             info "Uninstall complete. System is clean."
         fi
         exit 0 ;;
@@ -369,7 +370,6 @@ if command -v ufw >/dev/null && ufw status | grep -q "active"; then
     ufw allow "$PORT"/tcp
 fi
 
-
 # --- Multiple Users Setup ---
 USER_CONFIG=""
 if [ "$OVERWRITE" = false ]; then
@@ -377,17 +377,16 @@ if [ "$OVERWRITE" = false ]; then
     user_count=${user_count:-0}
 
     if (( user_count > 16 )); then user_count=16; fi
-
     for (( i=1; i<=user_count; i++ )); do
-        read -p "[?] Enter username for user $i: " u_name
-        u_name=${u_name:-user$i}
-        
+    # Explain the default behavior if Enter is pressed
+        echo -e "${YELLOW}[!] If you just press Enter (empty string), the name will be Bastard$i${NC}"
+        read -p "[?] Enter username for user $i: " u_name              
+        u_name=${u_name:-Bastard$i}        
         new_secret=$(openssl rand -hex 16)
         USER_CONFIG+=$'\n'"$u_name = \"$new_secret\""
         info "Added $u_name with secret: $new_secret"
     done
 fi
-
 
 # --- File Generation ---
 prepare_files
@@ -462,6 +461,6 @@ else
     [[ -z "$REPLY" ]] && deploy_container
 fi
 
-is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
+is_running && print_ "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
 
 #mn#
