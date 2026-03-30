@@ -238,7 +238,7 @@ status_detection() {
         else
             ACT_ICON="${RED}○${NC}"
             STATUS_MSG="(Status: ${YELLOW}Stopped${NC})"
-            TOGGLE_ACTION="Turn ON Proxy "
+            TOGGLE_ACTION="Turn ON  Proxy"
             # If Docker is inactive, we DO NOT overwrite EXISTING_LINK;
             # we can simply add a note to the STATUS_MSG if needed.
         fi
@@ -267,7 +267,7 @@ main_menu() {
     echo -e "${NC}\nBuild from existing image: $IMAGE_NAME"
     echo -e " 1) ${CYAN}Fast Install             (Port: $PORT, Domain: $SITE)${NC}"
     echo -e " 2) Custom Install           (Custom Port, Domain...)"
-    echo -e " 3) ${YELLOW}${TOGGLE_ACTION} ${NC}           $STATUS_MSG"
+    echo -e " 3) ${YELLOW}${TOGGLE_ACTION} ${NC}          $STATUS_MSG"
     echo -e " 4) ${RED}Full Uninstall${NC}           (Stop & Remove All)\n"
     echo -e " 5) Run external build script: $SCRIPT_NAME)"
     echo -ne "\n${YELLOW}[?] Choose option [1-5]:${NC} "
