@@ -98,8 +98,8 @@ deploy_container() {
 
     # Download image
     info "Pulling latest image..."
-    # docker compose pull && start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
-    start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
+    docker compose pull && start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
+    #                      start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
 }
 # Start container
 start_container() {
@@ -258,10 +258,11 @@ main_menu() {
     echo -e "\n\nSelect action: "
     echo -e "${NC}\nBuild from existing image: $IMAGE_NAME"
     echo -e " 1) ${CYAN}Fast Install             (Port: $PORT, Domain: $SITE)${NC}"
-    echo -e " 2) Custom Install           (Custom Port, Domain...)"
+    echo -e " 2) Custom Install           (Custom Port, Domain...)"    
     echo -e " 3) ${YELLOW}${TOGGLE_ACTION} ${NC}          $STATUS_MSG"
     echo -e " 4) ${RED}Full Uninstall${NC}           (Stop & Remove All)\n"
-    echo -e " 5) Run external build script: $SCRIPT_NAME)"
+    echo -e " 5) ${GREEN}Update Image${NC}           (Pull latest & Restart)"
+    echo -e " 6) Run external build script: $SCRIPT_NAME"
     echo -ne "\n${YELLOW}[?] Choose option [1-5]:${NC} "
     read -r INSTALL_MODE
 }
@@ -306,7 +307,16 @@ case $INSTALL_MODE in
             info "Uninstall complete. System is clean."
         fi
         exit 0 ;;
-    5)
+     5)
+        info "Updating Telemt image..."
+        if [ -f "$COMPOSE_FILE" ]; then
+            docker compose pull && docker compose up -d --remove-orphans
+            info "Update complete. Running latest version."
+        else
+            err "Configuration not found. Install proxy first."
+        fi
+        exit 0 ;;
+    6)
         info "Fetching build script..."
         curl -sLO "$BUILD_SCRIPT_URL"
         if [ -f "./$SCRIPT_NAME" ]; then
