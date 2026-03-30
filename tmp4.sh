@@ -90,11 +90,9 @@ deploy_container() {
     # Remove old resources
     info "Removing old containers..."
     docker compose down --remove-orphans >/dev/null 2>&1
-
     # Download image
     info "Pulling latest image..."
     docker compose pull && start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
-    #                      start_container || { err "Failed to deploy. Docker environment is not ready!"; exit 1; }
 }
 # Start container
 start_container() {
@@ -205,8 +203,11 @@ status_detection() {
     if [ -f "$PROXY_LINK_FILE" ]; then
         local raw_link=$(head -n 1 "$PROXY_LINK_FILE")
         EXISTING_LINK="LINK:${GREEN}$raw_link${NC}"
-        # Check if there are more than 1 line (meaning additional users exist)
-        if [ "$(wc -l < "$PROXY_LINK_FILE")" -gt 1 ]; then
+        
+        # Count non-empty lines accurately
+        local line_count=$(grep -c "[^[:space:]]" "$PROXY_LINK_FILE")
+        # If more than 1 user exists, show the info message
+        if [ "$line_count" -gt 1 ]; then
             info "Additional user links found in $PROXY_LINK_FILE"
         fi
     else
