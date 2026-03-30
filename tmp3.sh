@@ -124,9 +124,8 @@ start_container() {
 
 # Generate configuration files (telemt.toml and docker-compose.yml)
 prepare_files() {
-info "\nCleaning up old configuration files..."
+echo -e ""; info "\nCleaning up old configuration files..."
 rm -f "$CONFIG_FILE" "$COMPOSE_FILE"
-
 }
 
 # Check and install Docker, Docker Compose, and dependencies
