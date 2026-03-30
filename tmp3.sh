@@ -211,7 +211,9 @@ check_and_install() {
         fi
     fi
 
-    echo -e "\n${GREEN}[*] Environment is ready!${NC}"
+    # echo -e "\n${GREEN}[*] Environment is ready!${NC}"
+    info "Environment is ready!\n"
+    
     echo -ne "${YELLOW}[?] Press [ENTER] to continue...${NC}"
     read -r 
     # touch .setup_done
@@ -398,7 +400,7 @@ if [ "$OVERWRITE" = false ]; then
     for (( i=1; i<=user_count; i++ )); do
     # Explain the default behavior if Enter is pressed
         echo -e "${YELLOW}[!] If you just press Enter (empty string), the name will be Bastard$i${NC}"
-        read -p "[?] Enter username for user $i: " u_name              
+        read -p "[?] Enter name for user $i: " u_name              
         u_name=${u_name:-Bastard$i}        
         new_secret=$(openssl rand -hex 16)
         USER_CONFIG+=$'\n'"$u_name = \"$new_secret\""
