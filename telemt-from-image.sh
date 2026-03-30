@@ -214,7 +214,7 @@ status_detection() {
         INST_ICON="${RED}○${NC}"
         ACT_ICON="${RED}○${NC}"
         STATUS_MSG="${RED}(Not installed)${NC}"
-        TOGGLE_ACTION="Not installed-"
+        TOGGLE_ACTION="Not installed "
         EXISTING_LINK="" # In this case, the link is truly not needed
     fi
     DOCKER_INFO="\nSTATUS:  Installed [${INST_ICON}]  |  Active [${ACT_ICON}]"
