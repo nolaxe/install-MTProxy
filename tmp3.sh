@@ -385,7 +385,7 @@ if command -v ufw >/dev/null && ufw status | grep -q "active"; then
 fi
 
 # --- Multiple Users Setup ---
-USER_CONFIG=""
+#USER_CONFIG=""
 if [ "$OVERWRITE" = false ]; then
     read -p "[?] How many additional users to add? (0-16, default 0): " user_count
     user_count=${user_count:-0}
