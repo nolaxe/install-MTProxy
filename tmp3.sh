@@ -77,6 +77,25 @@ print_proxy_link() {
             echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
         done
     fi
+    echo -e ".=-"
+    # Извлекаем всех пользователей, кроме стандартного 'docker'
+    if [ -f "$CONFIG_FILE" ]; then    
+        # Ищем строку [access.users] и берем всё, что после неё, до конца секции
+        sed -n '/\[access.users\]/,$p' "$CONFIG_FILE" | grep "=" | while read -r line; do
+            local u_name=$(echo "$line" | cut -d' ' -f1)
+            local u_secret=$(echo "$line" | cut -d'"' -f2)
+            
+            # Пропускаем основного системного пользователя, если нужно
+            [[ "$u_name" == "docker" ]] && continue
+            
+            echo -e ": $u_name"
+            echo -e "🔗 ${CYAN}tg://proxy?server=$ip&port=$p&secret=ee${u_secret}${domain_hex}${NC}"
+        done
+    fi
+
+
+
+    
     echo -e "=========================================================="
     info "All links saved to $PROXY_LINK_FILE"
 }
