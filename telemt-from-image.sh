@@ -1,9 +1,10 @@
 #!/bin/bash
+echo "telemt-from-image.sh" # ip4
 
 # Distroless Image for Telemt - a fast Rust-based MTProxy (MTProto) server
 # Usage:
-# chmod +x ./telemt-from-image.sh
-# ./telemt-from-image.sh
+# chmod +x ./scrypt.sh
+# ./scrypt.sh
 
 # --- Docker images:     --------------------------------------------
 # 1 # Distroless build of https://github.com/telemt/telemt by whn0thacked
