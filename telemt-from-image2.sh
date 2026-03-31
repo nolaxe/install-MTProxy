@@ -314,8 +314,8 @@ if [ -f "$CONFIG_FILE" ]; then
 
     # echo -ne "[?] Press [ENTER] to keep current, type anything for a NEW one: "
     ask "Press [ENTER] to keep current, type anything for a NEW one: "
+    
     IFS= read -n 1 -s REPLY
-
     if [[ -z "$REPLY" ]]; then
         SECRET=$OLD_SECRET
         info "Keeping existing secret."
@@ -357,8 +357,9 @@ if [ "$OVERWRITE" = false ]; then
     echo -e "IP:Port: ${GREEN}$(get_public_ip):$PORT${NC}"
     echo -e "Secret:  ${GREEN}$SECRET${NC}"
     echo -e "${CYAN}--------------------------------${NC}"
+    # fix  me
     # read -p "[?] Enter Ad_tag (press ENTER to skip): " input_tag
-    ask "Enter Ad_tag (press ENTER to skip): "; read -r input_tag
+    # ask "Enter Ad_tag (press ENTER to skip): "; read -r input_tag
     AD_TAG=${input_tag:-$AD_TAG}    
 fi
 
@@ -366,6 +367,8 @@ if command -v ufw >/dev/null && ufw status | grep -q "active"; then
     info "Opening port $PORT..."
     ufw allow "$PORT"/tcp
 fi
+
+# --- Multiple Users Setup ---
 
 # --- File Generation ---
 prepare_files
@@ -431,16 +434,9 @@ services:
 #        hard: 65536
 EOF
 
-#  Execution 
-if [ "$OVERWRITE" = true ]; then
-    deploy_container && { echo -e "\n🎉 Proxy is ready to use!"; }
-else
-    # echo -ne "[?] 🚀 ${GREEN}Start now?${NC} Press [ENTER] to confirm: "
-    ask "🚀 ${GREEN}Start now?${NC} Press [ENTER] to confirm: "
-    IFS= read -r REPLY
-    [[ -z "$REPLY" ]] && deploy_container
-fi
-
+# --- Execution ---
+deploy_container && { echo -e "\n🎉 Proxy is ready to use!"; }
+# --- Status ---
 is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
 
 #mn#
