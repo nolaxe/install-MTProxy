@@ -99,7 +99,7 @@ check_and_install() {
     # 1. Ask for permission
     info "This script can check & install dependencies (Update, Docker, Compose, OpenSSL, lsof)"
     #echo -ne "${YELLOW}[?] Press [ENTER] to check/install or ANY OTHER KEY to skip: ${NC}"
-    ask "Press ${GREEN}[ENTER]${NC} to check/install or ANY OTHER KEY to skip777: "
+    ask "Press [ENTER] to check/install or ANY OTHER KEY to skip: "
     IFS= read -n 1 -s REPLY
     echo "" 
 
