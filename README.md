@@ -82,12 +82,15 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 🔗 LINK: tg://proxy?server=IP&port=PORT&secret=SECRET
 7) Активация: Просто скопируйте её и отправьте себе в Telegram (можно в "Избранное"), затем нажмите на неё для активации прокси.  
 <img width="371" height="540" alt="image" src="https://github.com/user-attachments/assets/45911a5b-b045-4fc8-8772-df2eef4cfbd2" />
+</details>
+
+<details>
+   <summary>Как сделать красивый адрес</summary>  
+Чтобы вместо IP-адреса в ссылке отображался домен, нужно привязать ваш сервер к доменному имени через DNS-записи на бесплатных сервисах  
+https://ydns.io/hosts, https://www.noip.com, https://www.duckdns.org и т.п.  
+- в итоге, вместо tg://proxy?server=157.257.147.157&port=43&secret=ee667c4....  
+- получим tg://proxy?server=rknonelove.ydns.com&port=43&secret=ee667....  
 </details>  
-
-
-
-
-
 
 ----
 
@@ -95,3 +98,4 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 Сборка образа Telemt от An0nX: https://github.com/An0nX/telemt-docker / [whn0thacked/telemt-docker](https://hub.docker.com/r/whn0thacked/telemt-docker). 
 
 Разработчики Telemt: https://github.com/telemt/telemt
+
