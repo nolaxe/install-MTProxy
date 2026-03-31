@@ -229,7 +229,7 @@ main_menu() {
     [ -n "$EXISTING_LINK" ] && echo -e "$EXISTING_LINK"
     ask "\n\nSelect action: "
     # echo -e "\n\nSelect action: "
-    echo -e "${NC}\nBuild from existing image: $IMAGE_NAME"
+    # echo -e "${NC}\nBuild from existing image: $IMAGE_NAME"
     echo -e " 1| ${CYAN}Fast Install             (Port: $PORT, Domain: $SITE)${NC}"
     echo -e " 2| Custom Install           (Custom Port, Domain...)\n"
     echo -e " 3| ${YELLOW}${TOGGLE_ACTION} ${NC}          $STATUS_MSG"
