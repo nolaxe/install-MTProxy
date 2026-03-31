@@ -1,5 +1,4 @@
-`[EN](https://github.com/nolaxe/install-MTProxy/main/README-EN.md)` 
-
+[EN](https://github.com/nolaxe/install-MTProxy/main/README-EN.md)  
 <img width="37" height="37" alt="image" src="https://github.com/user-attachments/assets/a25adede-03fd-45a9-a07a-befe34a65021" />   |  TLDR: VPS + скрипт ниже = ускорение тг
 :--- | :---
 
