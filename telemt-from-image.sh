@@ -1,7 +1,8 @@
 #!/bin/bash
+
 # Install Telemt proxy server (MTProxy) via Docker Distroless
-# Changelog: ip4, ask +
-echo "telemt-from-image.sh" 
+# telemt-from-image.sh
+# Changelog: ip4, random url, ask +,  #9), #ad_tag
 
 # Check for root privileges
 [ "$EUID" -ne 0 ] && { echo -e "[ERROR] Please run as root"; exit 1; }
@@ -221,21 +222,19 @@ echo -e "${GREEN}"
 echo "╔════════════════════════════════════════════════════╗"
 echo "║              MTProxy (Telemt) Installer            ║"
 echo "╚════════════════════════════════════════════════════╝"
-echo -e "${NC}Build from existing image: $IMAGE_NAME"
+echo -e "${NC}Build from image: $IMAGE_NAME"
 }
 
 main_menu() {
     echo -e "$DOCKER_INFO"
     [ -n "$EXISTING_LINK" ] && echo -e "$EXISTING_LINK"
-    ask "\n\nSelect action: "
-    # echo -e "\n\nSelect action: "
-    # echo -e "${NC}\nBuild from existing image: $IMAGE_NAME"
+    echo -e "\n\nSelect action:"
     echo -e " 1| ${CYAN}Fast Install             (Port: $PORT, Domain: $SITE)${NC}"
     echo -e " 2| Custom Install           (Custom Port, Domain...)\n"
     echo -e " 3| ${YELLOW}${TOGGLE_ACTION} ${NC}          $STATUS_MSG"
     echo -e " 4| ${RED}Full Uninstall${NC}           (Stop & Remove All)"
     echo -e " 5| ${GREEN}Update Image${NC}             (Pull latest & Restart)\n"
-    echo -e " 6| Run external build script: $SCRIPT_NAME)"
+    # echo -e " 9| Run external build script: $SCRIPT_NAME)"
     # echo -ne "\n${YELLOW}[?] Choose option [1-5]:${NC} "
     echo -e ""; ask "Choose option [1-5]: "
     read -r INSTALL_MODE
@@ -292,7 +291,7 @@ case $INSTALL_MODE in
             err "Configuration not found. Install proxy first."
         fi
         exit 0 ;;
-    6)
+    9)
         info "Fetching build script..."
         curl -sLO "$BUILD_SCRIPT_URL"
         if [ -f "./$SCRIPT_NAME" ]; then
