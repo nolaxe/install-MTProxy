@@ -3,6 +3,9 @@
 # Changelog: ip4, ask
 echo "telemt-from-image.sh" 
 
+# Check for root privileges
+[ "$EUID" -ne 0 ] && { echo -e "[ERROR] Please run as root"; exit 1; }
+
 # --- Docker images:     --------------------------------------------
 # 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
 IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
@@ -37,10 +40,6 @@ info()  { echo -e "${GREEN}[INFO]${NC} $*"; }
 warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; } 
 err()   { echo -e "${RED}[ERROR]${NC} $*"; }
 ask()   { echo -ne "${YELLOW}[?]${NC} $*"; }
-
-# Check for root privileges
-[ "$EUID" -ne 0 ] && { echo -e "${RED}[ERROR] Please run as root ${NC}"; exit 1; }
-
 
 # Check if container is running
 is_running() { [ "$(docker inspect -f '{{.State.Running}}' telemt 2>/dev/null)" == "true" ]; }
