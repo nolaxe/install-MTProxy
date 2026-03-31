@@ -10,7 +10,10 @@
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
 ```
-
+доп пользователи
+```
+bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image-mu.sh")
+```
 #### 📋 Что делает скрипт:
 - Проверяет нужные зависимости и устанавливает при отсутствии (Ubuntu 24)
 - Запрашивает параметры у пользователя (порт, TLS домен)
