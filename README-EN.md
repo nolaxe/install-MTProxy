@@ -1,3 +1,4 @@
+[EN](https://github.com/nolaxe/install-MTProxy/main/README-EN.md)  |  [RU](https://github.com/nolaxe/install-MTProxy/main/README.md)    
 <img width="37" height="37" alt="image" src="https://github.com/user-attachments/assets/a25adede-03fd-45a9-a07a-befe34a65021" />   |  TLDR: VPS + script below = Telegram acceleration
 :--- | :---
 
