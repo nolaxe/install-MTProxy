@@ -1,21 +1,15 @@
 #!/bin/bash
-echo "telemt-from-image-mu.sh" # ip4, multi user, random url
-
-# Distroless Image for Telemt - a fast Rust-based MTProxy (MTProto) server
-# Usage:
-# chmod +x ./scrypt.sh
-# ./scrypt.sh
+# Install Telemt proxy server (MTProxy) via Docker Distroless
+# Changelog: ip4  # ip4, multi user, random url
+echo "telemt-from-image-mu.sh" 
 
 # --- Docker images:     --------------------------------------------
-# 1 # Distroless build of https://github.com/telemt/telemt by whn0thacked
+# 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
 IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
 
-# 2 # Distroless build of https://github.com/telemt/telemt by whn0thacked (Copy at 2026-02)
+# 2 # Build https://github.com/telemt/telemt by whn0thacked = Copy at 2026-02
 # IMAGE_NAME="exalon/telemt-docker:latest"  # https://hub.docker.com/repository/docker/exalon/telemt-docker/general
 
-# 3 # new Distroless build of https://github.com/telemt/telemt 
-# IMAGE_NAME="exalon/telemt:latest"  # https://hub.docker.com/repository/docker/exalon/telemt/general
-# --------------------------------------------------------------------
 
 # --- Def Conf ---
 PORT="4433"
