@@ -323,9 +323,9 @@ esac
 if [ "$OVERWRITE" = false ]; then
     echo ""
     echo -e "${CYAN}Select proxy protocol mode:${NC}"
-    echo -e " A) ${GREEN}TLS Mode${NC}       (tls = true, secure = false, classic = false)"
-    echo -e " B) ${GREEN}Secure Mode${NC}    (secure = true, tls = false, classic = false)"
-    echo -e " C) ${YELLOW}Classic Mode${NC}   (classic = true, tls = false, secure = false)"
+    echo -e " 1) ${GREEN}TLS Mode${NC}       (tls = true, secure = false, classic = false)"
+    echo -e " 2) ${GREEN}Secure Mode${NC}    (tls = false, secure = true, classic = false)"
+    echo -e " 3) ${YELLOW}Classic Mode${NC}   (tls = false, secure = false, classic = true)"
     ask "Choose mode [A/B/C] (default A - TLS): "
     read -r mode_choice
     
