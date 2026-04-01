@@ -94,92 +94,7 @@ rm -f "$CONFIG_FILE" "$COMPOSE_FILE"
 
 # Check and install Docker, Docker Compose, and dependencies
 check_and_install() {
-    #removed#
-    #   0. Check for repeated run     #    [ -f ".setup_done" ] && return 0
-
-    # 1. Ask for permission
-    info "This script can check & install dependencies (Update, Docker, Compose, OpenSSL, lsof)"
-    #echo -ne "${YELLOW}[?] Press [ENTER] to check/install or ANY OTHER KEY to skip: ${NC}"
-    ask "Press [ENTER] to check/install or ANY OTHER KEY to skip: "
-    IFS= read -n 1 -s REPLY
     echo "" 
-
-    if [[ -n "$REPLY" ]]; then
-        info "Dependency check skipped by user"
-        return 0
-    fi
-
-    # 2. Update package lists
-    echo -ne "[>] Updating package lists... "
-    if apt-get update -y >/dev/null 2>&1; then
-        echo -e "${GREEN}Done${NC}"
-    else
-        echo -e "${RED}Failed${NC} (Check internet)"
-    fi
-
-    # 3. Docker
-    echo -ne "[>] Checking Docker... "
-    if command -v docker >/dev/null 2>&1; then
-        echo -e "${GREEN}Found${NC}"
-    else
-        echo -e "${YELLOW}Installing...${NC}"
-        if curl -fsSL https://get.docker.com | sh >/dev/null 2>&1; then
-            systemctl enable --now docker >/dev/null 2>&1
-        else
-            err "Failed to install Docker."
-            exit 1 # Прерываем, если Docker не поставился
-        fi
-    fi
-
-    # 4. Docker Compose
-    echo -ne "[>] Checking Docker Compose... "
-    if docker compose version >/dev/null 2>&1; then
-        echo -e "${GREEN}Found${NC}"
-    else
-        echo -e "${YELLOW}Installing...${NC}"
-        if apt-get install -y docker-compose-plugin >/dev/null 2>&1; then
-            echo -e "${GREEN}Done${NC}"
-        else
-            err "Failed to install Docker Compose plugin."
-            exit 1
-        fi
-    fi
-
-
-    # 5. OpenSSL
-    echo -ne "[>] Checking OpenSSL... "
-    if command -v openssl >/dev/null 2>&1; then
-        echo -e "${GREEN}Found${NC}"
-    else
-        echo -e "${YELLOW}Installing...${NC}"
-        if apt-get install -y openssl >/dev/null 2>&1; then
-            echo -e "${GREEN}Done${NC}"
-        else
-            echo -e "${RED}Failed${NC}"
-            err "Could not install OpenSSL. Check your package manager."
-            exit 1
-        fi
-    fi
-
-    # 6. LSOF
-    echo -ne "[>] Checking lsof... "
-    if command -v lsof >/dev/null 2>&1; then
-        echo -e "${GREEN}Found${NC}"
-    else
-        echo -e "${YELLOW}Installing...${NC}"
-        if apt-get install -y lsof >/dev/null 2>&1; then
-            echo -e "${GREEN}Done${NC}"
-        else
-            echo -e "${RED}Failed${NC}"
-            err "Could not install lsof."
-            exit 1 # Выход из скрипта при ошибке
-        fi
-    fi
-
-    echo -e "\n${GREEN}[*] Environment is ready!${NC}"
-    # echo -ne "${YELLOW}[?] Press [ENTER] to continue...${NC}"
-    ask "Press [ENTER] to continue... "; read -r 
-    # touch .setup_done
 }
 
 status_detection() {
@@ -372,8 +287,8 @@ fi
 
 # --- File Generation ---
 prepare_files
-info "Config ready: docker-compose.yml, telemt.toml"
 
+# telemt.toml
 cat > "$CONFIG_FILE" <<EOF
 show_link = ["docker"]
 [general]
@@ -434,6 +349,7 @@ services:
 #        hard: 65536
 EOF
 
+info "Config ready: docker-compose.yml, telemt.toml"
 # --- Execution ---
 deploy_container && { echo -e "\n🎉 Proxy is ready to use!"; }
 # --- Status ---
