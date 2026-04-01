@@ -52,33 +52,36 @@ is_running() { [ "$(docker inspect -f '{{.State.Running}}' telemt 2>/dev/null)" 
 get_public_ip() { curl -4 -s --max-time 5 ifconfig.me || echo "YOUR_IP"; }
 # Generate and display the MTProto proxy link
 print_proxy_link() {
-    local p=$1 s=$2
-    local ip=$(get_public_ip)
+    local p=$1 s=$2 ip=$(get_public_ip)
     local domain_hex=$(echo -n "$SITE" | od -A n -t x1 | tr -d ' \n')
-    local full_secret="ee${s}${domain_hex}"    
-    local link="tg://proxy?server=$ip&port=$p&secret=$full_secret"
+    local prefix="" suffix="" # local link="tg://proxy?server=$ip&port=$p&secret=ee${s}${domain_hex}"
+
+    # Select prefix and suffix based on active mode
+    [ "$PROTO_TLS" = "true" ] && { prefix="ee"; suffix="$domain_hex"; }
+    [ "$PROTO_SECURE" = "true" ] && prefix="dd"
+
+    local link="tg://proxy?server=$ip&port=$p&secret=${prefix}${s}${suffix}"
     echo "Default: $link" > "$PROXY_LINK_FILE"   
-
-    # 1. TLS Mode (префикс ee + секрет + hex домена)
-    local link_tls="tg://proxy?server=$ip&port=$p&secret=ee${s}${domain_hex}"
-    echo -e "${CYAN}[TLS Mode]${NC} (Recommended):"
-    echo -e "$link_tls"
-
-    # 2. Secure Mode (префикс dd + секрет)
-    local link_secure="tg://proxy?server=$ip&port=$p&secret=dd${s}"
-    echo -e "\n${CYAN}[Secure Mode]${NC}:"
-    echo -e "$link_secure"
-
-    # 3. Classic Mode (просто секрет без префиксов)
-    local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"
-    echo -e "\n${CYAN}[Classic Mode]${NC} (Old/Unsafe):"
-    echo -e "$link_classic"
-
 
     echo -e "=========================================================="
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
     echo -e "Default 🔗 ${CYAN}$link${NC}"
     echo -e "=========================================================="
+
+    echo -e ""
+####################
+    # 1. TLS Mode: Uses "ee" prefix + secret + hex domain.
+    local link_tls="tg://proxy?server=$ip&port=$p&secret=ee${s}${domain_hex}"
+    echo -e "\n[TLS Mode]:"; echo -e "$link_tls"
+
+    # 2. Secure Mode: Uses "dd" prefix + secret.
+    local link_secure="tg://proxy?server=$ip&port=$p&secret=dd${s}"
+    echo -e "\n[Secure Mode]:"; echo -e "$link_secure"
+
+    # 3. Classic Mode: Raw 32-char secret without any prefixes.
+    local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"
+    echo -e "\n[Classic Mode]:"; echo -e "$link_classic"
+#############  
 
     # Extract additional users from the configuration file
     if [[ -f "$CONFIG_FILE" ]]; then
