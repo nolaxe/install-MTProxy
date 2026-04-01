@@ -66,17 +66,15 @@ print_proxy_link() {
     echo -e "=========================================================="
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
     echo -e "Default 🔗 ${CYAN}$link${NC}"
-    echo -e "=========================================================="
-
-    echo -e ""
-####################
+    echo -e "=========================================================="  
+    
+    # test
     # 1. TLS Mode: Uses "ee" prefix + secret + hex domain.
-    local link_tls="tg://proxy?server=$ip&port=$p&secret=ee${s}${domain_hex}"; info "[TLS Mode]: $link_tls"
+    # local link_tls="tg://proxy?server=$ip&port=$p&secret=ee${s}${domain_hex}"; info "[TLS Mode]: $link_tls"
     # 2. Secure Mode: Uses "dd" prefix + secret.
-    local link_secure="tg://proxy?server=$ip&port=$p&secret=dd${s}"; info "[Secure Mode]: $link_secure"
+    # local link_secure="tg://proxy?server=$ip&port=$p&secret=dd${s}"; info "[Secure Mode]: $link_secure"
     # 3. Classic Mode: Raw 32-char secret without any prefixes.
-    local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"; info "[Classic Mode]: $link_classic"
-#############  
+    # local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"; info "[Classic Mode]: $link_classic"
 
     # Extract additional users from the configuration file
     if [[ -f "$CONFIG_FILE" ]]; then
@@ -284,8 +282,7 @@ case $INSTALL_MODE in
     3)
         if [ -f "$COMPOSE_FILE" ]; then
             if is_running; then
-                info "Stopping container..."
-                docker compose stop && info "Stopped."
+                info "Stopping container..."; docker compose stop && info "Stopped."
                 exit 0 
             else
                 start_container
@@ -296,7 +293,7 @@ case $INSTALL_MODE in
         fi
         ;;
     4)     
-        warn "This will remove EVERYTHING related to Telemt"
+        warn "This will remove EVERYTHING related to Telemt (rm telemt.toml, docker-compose.yml, proxy_link.txt)"
         read -p "[?] Are you sure? Press [ENTER] to confirm or type anything to cancel: " -r        
         if [[ -z "$REPLY" ]]; then
             # 1. Remove rules from UFW (two lines: file check + actions)
