@@ -319,6 +319,48 @@ case $INSTALL_MODE in
     *) err "Invalid option."; exit 1 ;;
 esac
 
+# --- Protocol Mode Selection (Custom Install) ---
+if [ "$OVERWRITE" = false ]; then
+    echo ""
+    echo -e "${CYAN}Select proxy protocol mode:${NC}"
+    echo -e " A) ${GREEN}TLS Mode${NC}       (tls = true, secure = false, classic = false)"
+    echo -e " B) ${GREEN}Secure Mode${NC}    (secure = true, tls = false, classic = false)"
+    echo -e " C) ${YELLOW}Classic Mode${NC}   (classic = true, tls = false, secure = false)"
+    ask "Choose mode [A/B/C] (default A - TLS): "
+    read -r mode_choice
+    
+    case "${mode_choice,,}" in
+        b) 
+            PROTO_CLASSIC="false"
+            PROTO_SECURE="true"
+            PROTO_TLS="false"
+            info "Selected: Secure Mode"
+            ;;
+        c)
+            PROTO_CLASSIC="true"
+            PROTO_SECURE="false"
+            PROTO_TLS="false"
+            info "Selected: Classic Mode"
+            ;;
+        a|*)
+            PROTO_CLASSIC="false"
+            PROTO_SECURE="false"
+            PROTO_TLS="true"
+            info "Selected: TLS Mode (default)"
+            ;;
+    esac
+else
+    # Fast Install defaults to TLS
+    info "PROTO_CLASSIC="false""
+    info "PROTO_SECURE="false""
+    info "PROTO_TLS="true""
+fi
+
+
+
+
+
+
 # --- Proxy Secret: Keep Existing or New ---
 if [ -f "$CONFIG_FILE" ]; then
     # 1. Extract the main secret (docker user)
