@@ -392,10 +392,18 @@ fi
 if [ "$OVERWRITE" = false ]; then
     # Start a loop to ensure the selected port is actually available
     while true; do
-    # read -p "[?] Enter port (default $PORT): " input_port
-    ask "Enter port (default $PORT): "; read -r input_port
+        # read -p "[?] Enter port (default $PORT): " input_port
+        ask "Enter port (default $PORT): "; read -r input_port
         PORT=${input_port:-$PORT}
+        
         if lsof -i :"$PORT" -sTCP:LISTEN -t >/dev/null ; then
+        #
+            if [ "$(docker ps -aq -f name=^telemt$)" ]; then
+                info "Removing existing 'telemt' container to avoid name conflict..."
+                docker rm -f telemt >/dev/null 2>&1
+            fi
+        else
+        #
             warn "Port $PORT is already occupied!"
             lsof -i :"$PORT" -sTCP:LISTEN
             echo -e "${YELLOW}Please choose a different port or stop the service above.${NC}"
