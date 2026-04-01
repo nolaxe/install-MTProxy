@@ -356,8 +356,8 @@ fi
 
 # --- Proxy Secret: Keep Existing or New ---
 if [ -f "$CONFIG_FILE" ]; then
-    # 1. Extract the main secret (docker user)
-    OLD_SECRET=$(grep "docker =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
+    # 1. Finds only the line starting with "docker", takes the first match, and cleans it
+    OLD_SECRET=$(grep "^docker =" "$CONFIG_FILE" | head -n 1 | awk -F'=' '{print $2}' | tr -d ' "')
     echo -e "${YELLOW}[?] Config found. Use existing secrets? ($OLD_SECRET and others)${NC}"
     echo -e "${CYAN}    (This will restore ALL users from the previous config)${NC}"
     
@@ -368,20 +368,21 @@ if [ -f "$CONFIG_FILE" ]; then
     IFS= read -n 1 -s REPLY
     if [[ -z "$REPLY" ]]; then
         SECRET=$OLD_SECRET
-        # 2. Extract everything AFTER the 'docker =' line to capture additional users
-        # We skip the docker line itself and add newlines for proper formatting
-        USER_CONFIG=$(sed -n '/docker =/,$p' "$CONFIG_FILE" | grep -v "docker =" | sed 's/^/\n/')
-        info "All existing users/secrets restored to USER_CONFIG."
+        # 1. Filter out the 'docker' line itself and any new section headers like [new_param]
+        USER_CONFIG=$(sed -n '/docker =/,$p' "$CONFIG_FILE" | grep -vE "docker =|\[" | sed '/^$/d')    
+        [ -n "$USER_CONFIG" ] && USER_CONFIG=$'\n'"$USER_CONFIG"
+    
+    info "Existing users and secrets restored."
     else
         SECRET=$(openssl rand -hex 16)
         USER_CONFIG="" # Reset if the user wants a clean start
-        info "New secret generated: $SECRET"
-        warn "Old additional users cleared."
+        info "New secret generated: $SECRET"; warn "Old additional users cleared."
     fi
 else
     # Generate a fresh secret if no config exists
     SECRET=$(openssl rand -hex 16)
-    info "Generated secret: $SECRET"
+    USER_CONFIG="" # Reset if the user wants a clean start
+    info "New secret generated: $SECRET"; warn "Old additional users cleared."
 fi
 
 # --- Custom setup parameters ---
