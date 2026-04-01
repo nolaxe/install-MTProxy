@@ -75,7 +75,7 @@ print_proxy_link() {
     # 2. Secure Mode: Uses "dd" prefix + secret.
     local link_secure="tg://proxy?server=$ip&port=$p&secret=dd${s}"; info "[Secure Mode]: $link_secure"
     # 3. Classic Mode: Raw 32-char secret without any prefixes.
-    local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"; info "[TLS Mode]: $link_classic"
+    local link_classic="tg://proxy?server=$ip&port=$p&secret=${s}"; info "[Classic Mode]: $link_classic"
 #############  
 
     # Extract additional users from the configuration file
