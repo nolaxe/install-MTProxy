@@ -415,7 +415,6 @@ services:
 #      - "$PORT:$PORT/tcp"
 #      - "127.0.0.1:9090:9090/tcp"
     network_mode: "host"
-    # секцию ports можно закомментировать или удалить
     cap_drop:
       - ALL
     cap_add:
