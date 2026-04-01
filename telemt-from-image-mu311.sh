@@ -65,7 +65,7 @@ print_proxy_link() {
 
     echo -e "=========================================================="
     echo -e "Copy the link below to Telegram and click it to activate the proxy"
-    echo -e "Default link 🔗 ${CYAN}$link${NC}"
+    echo -e "🔗 Default link: ${CYAN}$link${NC}"
     # echo -e "=========================================================="  
     
     # test
@@ -82,7 +82,7 @@ print_proxy_link() {
         local users_list=$(sed -n '/\[access.users\]/,$p' "$CONFIG_FILE" | grep "=" | grep -v "docker =")
         
         if [[ -n "$users_list" ]]; then
-            echo -e "Additional user list:"
+            echo -e "🔗 Additional user list: "
             echo "$users_list" | while read -r line; do
                 # Extract username (before '=') and secret (inside quotes)
                 local u_name=$(echo "$line" | cut -d'=' -f1 | tr -d ' ')
