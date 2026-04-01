@@ -320,40 +320,23 @@ case $INSTALL_MODE in
 esac
 
 # --- Protocol Mode Selection (Custom Install) ---
+PROTO_CLASSIC="false"; PROTO_SECURE="false" ; PROTO_TLS="false"
 if [ "$OVERWRITE" = false ]; then
     echo ""
     echo -e "${CYAN}Select proxy protocol mode:${NC}"
     echo -e " 1) ${GREEN}TLS Mode${NC}       (tls = true, secure = false, classic = false)"
     echo -e " 2) ${GREEN}Secure Mode${NC}    (tls = false, secure = true, classic = false)"
     echo -e " 3) ${YELLOW}Classic Mode${NC}   (tls = false, secure = false, classic = true)"
-    ask "Choose mode [A/B/C] (default A - TLS): "
-    read -r mode_choice
-    
-    case "${mode_choice,,}" in
-        b) 
-            PROTO_CLASSIC="false"
-            PROTO_SECURE="true"
-            PROTO_TLS="false"
-            info "Selected: Secure Mode"
-            ;;
-        c)
-            PROTO_CLASSIC="true"
-            PROTO_SECURE="false"
-            PROTO_TLS="false"
-            info "Selected: Classic Mode"
-            ;;
-        a|*)
-            PROTO_CLASSIC="false"
-            PROTO_SECURE="false"
-            PROTO_TLS="true"
-            info "Selected: TLS Mode (default)"
-            ;;
+    ask "Choose mode (default - TLS): "
+    read -r proto_choice
+        
+    case "$proto_choice" in
+        2) PROTO_SECURE="true"; info "Selected: Secure Mode" ;;
+        3) PROTO_CLASSIC="true"; info "Selected: Classic Mode" ;;
+        1|*) PROTO_TLS="true"; info "Selected: TLS Mode (default)" ;;
     esac
 else
-    # Fast Install defaults to TLS
-    info "PROTO_CLASSIC="false""
-    info "PROTO_SECURE="false""
-    info "PROTO_TLS="true""
+    PROTO_TLS="true"; info "Selected: TLS Mode"
 fi
 
 
@@ -368,8 +351,8 @@ if [ -f "$CONFIG_FILE" ]; then
     echo -e "${YELLOW}[?] Config found. Use existing secrets? ($OLD_SECRET and others)${NC}"
     echo -e "${CYAN}    (This will restore ALL users from the previous config)${NC}"
     
-    # Use a single read to prevent "hanging"
-    # read -p "[?] Press [ENTER] to keep ALL, type anything for a NEW one: " -r REPLY
+    # Use a single  to prevent "hanging"
+    #  -p "[?] Press [ENTER] to keep ALL, type anything for a NEW one: " -r REPLY
     ask "Press [ENTER] to keep ALL, type anything for a NEW one: "
     
     IFS= read -n 1 -s REPLY
@@ -462,9 +445,9 @@ show_link = ["docker"]
 fast_mode = true
 use_middle_proxy = true
 [general.modes]
-classic = false
-secure = false
-tls = true
+classic = $PROTO_CLASSIC
+secure = $PROTO_SECURE
+tls = $PROTO_TLS
 [server]
 port = $PORT
 listen_addr_ipv4 = "0.0.0.0"
