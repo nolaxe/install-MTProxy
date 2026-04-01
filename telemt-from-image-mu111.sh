@@ -398,7 +398,7 @@ if [ "$OVERWRITE" = false ]; then
         if lsof -i :"$PORT" -sTCP:LISTEN -t >/dev/null ; then
             warn "Port $PORT is already occupied!"
             lsof -i :"$PORT" -sTCP:LISTEN
-            echo -e "${YELLOW}Please choose a different port or stop the service above.${NC}"
+            echo -e "${YELLOW}Please choose a different port or stop the service above OR Turn OFF current Proxy ${NC}"
         else
             info "Port $PORT is available."
             break
