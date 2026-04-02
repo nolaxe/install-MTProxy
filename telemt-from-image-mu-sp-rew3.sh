@@ -250,8 +250,8 @@ status_detection() {
         TOGGLE_ACTION="Not installed"
         EXISTING_LINK="" # In this case, the link is truly not needed
     fi
-    local inst_date=""; [ -f ".install_date" ] && inst_date=" Last setup date:$(cat .install_date)"
-    DOCKER_INFO="\n $inst_date\nSTATUS:  Config files [${INST_ICON}] |  Active [${ACT_ICON}]"
+    local inst_date=""; [ -f ".install_date" ] && inst_date="Last setup date:$(cat .install_date)"
+    DOCKER_INFO="\n$inst_date\nSTATUS:  Config files [${INST_ICON}] |  Active [${ACT_ICON}]"
 }
 
 gui_top() {
