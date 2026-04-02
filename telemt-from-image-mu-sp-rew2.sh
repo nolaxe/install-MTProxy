@@ -277,8 +277,54 @@ main_menu() {
     read -r INSTALL_MODE
 }
 
+сonfig_found() {
+        echo -e "\n${CYAN}Existing configuration detected. Choose your path:${NC}"
+        echo -e " 1) ${GREEN}Keep ALL${NC} (Secret + All Users) — useful for changing Port/Domain only"
+        echo -e " 2) ${YELLOW}Keep Master Secret${NC} only — resets additional users"
+        echo -e " 3) ${RED}REFRESH ALL${NC} — new master secret and clear users"
+        echo ""
+        ask "Selection [1-3, default 1]: "
+        read -r sub_choice
+        sub_choice=${sub_choice:-1}
+
+        case "$sub_choice" in
+            1)
+                # Читаем данные только для того, чтобы в конце скрипта вывести правильную ссылку
+                SECRET=$(grep "^docker =" "$CONFIG_FILE" | head -n 1 | awk -F'=' '{print $2}' | tr -d ' "')
+                PORT=$(grep "port =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d '[:space:]"')
+                SITE=$(grep "tls_domain =" "$CONFIG_FILE" | awk -F'=' '{print $2}' | tr -d ' "')
+                info $SECRET
+                info $PORT
+                info $SITE
+                info "Using existing $CONFIG_FILE. Skipping generation..."
+                SKIP_CONFIG_GEN=true 
+                goto_deploy=true
+                ;;
+            2)
+                # Вытягиваем старые секреты (основной + доп. пользователи)
+                SECRET=$(grep "^docker =" "$CONFIG_FILE" | head -n 1 | awk -F'=' '{print $2}' | tr -d ' "')
+                USER_CONFIG=$(sed -n '/docker =/,$p' "$CONFIG_FILE" | grep -vE "docker =|\[" | sed '/^$/d')
+                [ -n "$USER_CONFIG" ] && USER_CONFIG=$'\n'"$USER_CONFIG"
+
+                info $USER_CONFIG
+                info "Secrets preserved. Let's update settings."
+                
+                ;;
+            3)
+                # Полный сброс
+                SECRET=$(openssl rand -hex 16)
+                USER_CONFIG=""
+                info "Everything reset. Generating new master secret..."
+                ;;
+        esac
+    fi
+}
+
 # --- Output (start actions)---
 clear
+
+сonfig_found
+
 # check_and_install
 status_detection
 gui_top
@@ -332,9 +378,11 @@ case $INSTALL_MODE in
         ;;
     *) err "Invalid option."; exit 1 ;;
 esac
-
-# --- Protocol Mode Selection (Custom Install) ---
+#
 PROTO_CLASSIC="false"; PROTO_SECURE="false" ; PROTO_TLS="false"
+# --- Protocol Mode Selection (Custom Install) ---
+
+# если кастом то спросили протокол
 if [ "$OVERWRITE" = false ]; then
     echo ""
     echo -e "${CYAN}Select proxy protocol mode:${NC}"
@@ -353,7 +401,7 @@ else
     PROTO_TLS="true"; info "Selected: TLS Mode"
 fi
 
-
+# ой, тут занято
 # --- Proxy Secret: Keep Existing or New ---
 if [ -f "$CONFIG_FILE" ]; then
     # 1. Finds only the line starting with "docker", takes the first match, and cleans it
