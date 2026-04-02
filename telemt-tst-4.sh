@@ -305,8 +305,7 @@ f_deploy() {
                 deploy_container && { info "🎉 Proxy is ready to use!"; }
                 [ ! -f ".install_date" ] && date +"%Y-%m-%d" > .install_date
                 # --- Status ---
-                is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
-                ;;
+                is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."           
 }
 
 сonfig_found() {
