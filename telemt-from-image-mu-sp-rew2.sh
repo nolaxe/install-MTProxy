@@ -317,7 +317,7 @@ main_menu() {
                 info "Everything reset. Generating new master secret..."
                 ;;
         esac
-    fi
+    
 }
 
 # --- Output (start actions)---
