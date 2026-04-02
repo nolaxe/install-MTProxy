@@ -253,11 +253,12 @@ status_detection() {
 }
 
 gui_top() {
+local inst_date=""; [ -f ".install_date" ] && inst_date=" (Installed: $(cat .install_date))"
 echo -e "${GREEN}"
 echo "╔════════════════════════════════════════════════════╗"
 echo "║              MTProxy (Telemt) Installer            ║"
 echo "╚════════════════════════════════════════════════════╝"
-echo -e "${NC}Build from image: $IMAGE_NAME"
+echo -e "${NC}Build from image: $IMAGE_NAME // ${CYAN}$inst_date${NC}"
 }
 
 main_menu() {
@@ -512,6 +513,7 @@ EOF
 # --- Execution ---
 # deploy_container && { echo -e "\n🎉 Proxy is ready to use!"; }
 deploy_container && { info "🎉 Proxy is ready to use!"; }
+[ ! -f ".install_date" ] && date +"%Y-%m-%d" > .install_date
 # --- Status ---
 is_running && print_proxy_link "$PORT" "$SECRET" || info "Status: Stopped. Use Option 3 later."
 
