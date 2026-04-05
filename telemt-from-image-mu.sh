@@ -361,7 +361,7 @@ if [ "$OVERWRITE" = false ]; then
         PORT=${input_port:-$PORT}
     
         # Check if port is privileged (<1024) and script is NOT running as root
-        if [ "$PORT" -lt 1024 ] && [ "$EUID" -ne 0 ]; then
+        if [ "$PORT" -lt 1024 ]; then
             warn "Port $PORT is privileged (needs root). Cannot verify if occupied."
             echo -e "${YELLOW}⚠️  Please check manually or use port > 1024${NC}"
             continue 
