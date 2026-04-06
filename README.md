@@ -36,8 +36,11 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
   <img width="743" height="104" alt="image" src="https://github.com/user-attachments/assets/c43bee4c-01d0-44b6-a286-8936c71ca004" />  
  `результат`  
 <img width="743" height="180" alt="image" src="https://github.com/user-attachments/assets/da5a5c10-07cd-4b8c-b399-aed3b0e66889" />  
-`файл со ссылками proxy_link.txt`  
+
+`+файл со ссылками proxy_link.txt`  
 <img width="743" height="100" alt="image" src="https://github.com/user-attachments/assets/abb570a1-7311-4b67-9b7d-6ca9f6d3b05f" />  
+`+cтатистика из api telemt`  
+<img width="304" height="77" alt="image" src="https://github.com/user-attachments/assets/502ca659-1c07-4e59-8be2-9643a1803fe2" />  
 
 
 #### 📦 Особенности образа TeleMT
