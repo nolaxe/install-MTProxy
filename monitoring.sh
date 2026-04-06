@@ -1,6 +1,6 @@
 #!/bin/bash
-#  chmod +x mon3.sh
-#  watch -n 1 -c ./mon3.sh
+#  chmod +x monitoring.sh
+#  watch -n 1 -c ./monitoring.sh
 
 # --- Colors ---
 GREEN='\033[0;32m'
