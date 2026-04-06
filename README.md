@@ -11,7 +11,7 @@
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
 ```
-... расширенный вариант (мультипользователи, ad_tag, просмотр статистики использования)
+... расширенный вариант (мультипользователи, ad_tag, просмотр статистики использования) *upd 2026-04-06
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image-mu.sh")
 ```
