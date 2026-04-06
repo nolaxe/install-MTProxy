@@ -27,17 +27,17 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 
 ####  🛠  Процесс установки:  
 `меню`  
-<img width="507" height="294" alt="image" src="https://github.com/user-attachments/assets/a701fd4b-6df0-4ae9-85a5-6d5e81949837" />
-
+<img width="571" height="469" alt="image" src="https://github.com/user-attachments/assets/53d6c723-4cad-4503-a488-7b7fac610fdf" />  
 `подготовка зависимостей`  
-<img width="753" height="156" alt="image" src="https://github.com/user-attachments/assets/0d5613ac-8023-44be-a9c0-f9ac35e855e0" />
-
+<img width="743" height="140" alt="image" src="https://github.com/user-attachments/assets/adeaad6f-8d78-47c4-914d-1bd87870cd71" />  
+ `ввод переменных`  
+<img width="743" height="317" alt="image" src="https://github.com/user-attachments/assets/2b5d767d-cce7-462b-b0a0-1f3de5e65dfd" />  
 `разворачивание`  
-<img width="753" height="263" alt="image" src="https://github.com/user-attachments/assets/b2071e4e-7a4d-4f2d-8549-5e84f31c578c" />
-
-`результат`  
-<img width="753" height="94" alt="image" src="https://github.com/user-attachments/assets/b7273739-4a5d-4ab4-b2ca-f2fcac0255f7" />
-
+  <img width="743" height="104" alt="image" src="https://github.com/user-attachments/assets/c43bee4c-01d0-44b6-a286-8936c71ca004" />  
+ `результат`  
+<img width="743" height="180" alt="image" src="https://github.com/user-attachments/assets/da5a5c10-07cd-4b8c-b399-aed3b0e66889" />  
+`файл со ссылками proxy_link.txt`  
+<img width="743" height="100" alt="image" src="https://github.com/user-attachments/assets/abb570a1-7311-4b67-9b7d-6ca9f6d3b05f" />  
 
 
 #### 📦 Особенности образа TeleMT
