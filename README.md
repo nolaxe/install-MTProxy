@@ -25,9 +25,6 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 - Выводит на экран и в файл ссылки для подключения
 допом скриптом можно отключить\включить прокси
 
-#### 📋 Что пока НЕ делает скрипт:
-- ad_tag для канала спонсора ⏳ в процессе
-
 ####  🛠  Процесс установки:  
 `меню`  
 <img width="507" height="294" alt="image" src="https://github.com/user-attachments/assets/a701fd4b-6df0-4ae9-85a5-6d5e81949837" />
