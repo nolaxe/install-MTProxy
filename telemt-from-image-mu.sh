@@ -2,7 +2,7 @@
 
 # Deployment script for Docker image for Telemt - a fast Rust-based MTProxy (MTProto) server
 # telemt-from-image-mu-01.sh
-# Changelog: ip4, random url, multi user, ad_tag
+# Changelog: ip4, random url, multi user, ad_tag, metrics
 set -o pipefail
 # --- Docker images: --------------------------------------------
 # 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
