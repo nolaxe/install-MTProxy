@@ -11,7 +11,7 @@ Run the container setup script:
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
 ```
-... and the option with multi-users (MAX_USERS=16)
+...  advanced option (multi-users, ad_tag, viewing usage statistics)
 ```
 bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image-mu.sh")
 ```
