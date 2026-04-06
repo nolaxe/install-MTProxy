@@ -30,7 +30,7 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 
 ####  🛠  Процесс установки:  
 `меню`  
-<img width="624" height="294" alt="image" src="https://github.com/user-attachments/assets/ed0b671f-56aa-42a6-9498-cce79886c4db" />
+<img width="507" height="294" alt="image" src="https://github.com/user-attachments/assets/a701fd4b-6df0-4ae9-85a5-6d5e81949837" />
 
 `подготовка зависимостей`  
 <img width="753" height="156" alt="image" src="https://github.com/user-attachments/assets/0d5613ac-8023-44be-a9c0-f9ac35e855e0" />
