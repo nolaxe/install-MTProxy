@@ -29,7 +29,7 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 - Запускает установку
 - Выводит на экран и в файл ссылки для подключения
 
-####  🛠  Процесс установки:  
+####  🛠  Процесс разворачивания telemt:  
 `меню`  
 <img width="571" height="469" alt="image" src="https://github.com/user-attachments/assets/53d6c723-4cad-4503-a488-7b7fac610fdf" />  
 `подготовка зависимостей`  
