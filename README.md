@@ -46,10 +46,12 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 `+cтатистика из api telemt`  
 <img width="304" height="77" alt="image" src="https://github.com/user-attachments/assets/502ca659-1c07-4e59-8be2-9643a1803fe2" />  
 
-####  🛠  Готово, можно использовать полученные ссылки для подключения  
+####  ✨ Готово, можно использовать полученные ссылки для подключения  
+
+<details>
+   <summary>🎁</summary>
 <img width="400" height="400" alt="Image" src="https://github.com/user-attachments/assets/50a477e5-74a6-45ea-afb9-4e18f4cdfaa5" />
-
-
+</details>
 
 ---
 вариант 2  
