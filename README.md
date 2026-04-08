@@ -32,11 +32,11 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
 ####  🛠  Процесс разворачивания telemt:  
 `меню`  
 <img width="571" height="469" alt="image" src="https://github.com/user-attachments/assets/53d6c723-4cad-4503-a488-7b7fac610fdf" />  
-`подготовка зависимостей`  
+`авто подготовка зависимостей`  
 <img width="743" height="140" alt="image" src="https://github.com/user-attachments/assets/adeaad6f-8d78-47c4-914d-1bd87870cd71" />  
- `ввод переменных`  
+ `ввод переменных от пользователя`  
 <img width="743" height="317" alt="image" src="https://github.com/user-attachments/assets/2b5d767d-cce7-462b-b0a0-1f3de5e65dfd" />  
-`разворачивание`  
+`авто разворачивание`  
   <img width="743" height="104" alt="image" src="https://github.com/user-attachments/assets/c43bee4c-01d0-44b6-a286-8936c71ca004" />  
  `результат`  
 <img width="743" height="180" alt="image" src="https://github.com/user-attachments/assets/da5a5c10-07cd-4b8c-b399-aed3b0e66889" />  
