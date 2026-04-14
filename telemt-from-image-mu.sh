@@ -484,9 +484,9 @@ if [ "$RENEW_SETTINGS" = true ]; then
                 if [[ "$VALUE_DEF_VALUE_PORT" -lt 1024 ]]; then
                     warn "Port $VALUE_DEF_VALUE_PORT is privileged (needs root). Cannot verify if occupied."
                     echo -e "${YELLOW}  Please check manually or use port > 1024${NC}"
-                    # continue
+                    continue
                 fi
-                if lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN -t >/dev/null ; then
+                if sudo lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN -t >/dev/null ; then
                     warn "Port $VALUE_DEF_VALUE_PORT is already occupied!"
                     lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN
                     echo -e "${YELLOW}Please choose a different port or stop the service above OR Turn OFF current Proxy ${NC}"
