@@ -482,7 +482,7 @@ if [ "$RENEW_SETTINGS" = true ]; then
                 VALUE_DEF_VALUE_PORT=${input_port:-$VALUE_DEF_VALUE_PORT}
                 # Check if port is privileged (<1024) and script is NOT running as root
                 if [[ "$VALUE_DEF_VALUE_PORT" -lt 1024 ]]; then
-                    warn "Port $VALUE_DEF_VALUE_PORT is privileged (needs root). Cannot verify if occupied."
+                    warn "Port $VALUE_DEF_VALUE_PORT is privileged (needs root). Might not be able to verify if occupied."
                     echo -e "${YELLOW}  Please check manually or use port > 1024${NC}"
                     # continue
                 fi
