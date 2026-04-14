@@ -211,7 +211,7 @@ show_link = ["docker"]
 [general]
 fast_mode = true
 ${AD_TAG_DISABLED}ad_tag = "$AD_TAG"
-use_middle_proxy = true
+use_middle_proxy = false
 [general.modes]
 classic = $PROTO_CLASSIC
 secure = $PROTO_SECURE
