@@ -7,11 +7,8 @@
 # Exit if any command in a pipeline fails
 set -o pipefail
 
-# Check if the script is running as root
-if [[ $EUID -ne 0 ]]; then
-    echo "Error: This script must be run as root."; echo "Please use: sudo bash $0"
-    exit 1
-fi
+# Check for root privileges
+[ "$EUID" -ne 0 ] && { echo -e "[ERROR] Please run as root"; exit 1; }
 
 # --- Docker images: --------------------------------------------
 # 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
