@@ -2,14 +2,13 @@
 
 # Deployment script for Docker image for Telemt - a fast Rust-based MTProxy (MTProto) server
 # telemt-from-image-mu.sh # 2026-04-06
-# Changelog: ip4, random url, multi user, ad_tag, metrics, port?
+# Changelog: ip4, random url, multi user, ad_tag, metrics, privileges
 set -o pipefail
 
 # Check for root privileges using your new err function
 if [[ $EUID -ne 0 ]]; then
     err "This script must be run as root!"; echo -e "${YELLOW}Please use: sudo bash $0${NC}"; exit 1
 fi
-
 
 # --- Docker images: --------------------------------------------
 # 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
@@ -491,7 +490,7 @@ if [ "$RENEW_SETTINGS" = true ]; then
                 # Check if port is privileged (<1024) and script is NOT running as root
                 if [[ "$VALUE_DEF_VALUE_PORT" -lt 1024 ]]; then
                     warn "Port $VALUE_DEF_VALUE_PORT is privileged (needs root). Might not be able to verify if occupied."
-                    echo -e "${YELLOW}  Please check manually or use port > 1024${NC}"
+                    # echo -e "${YELLOW}  Please check manually or use port > 1024${NC}"
                     # continue
                 fi
                 # Occupancy check. If lsof finds a process, it returns 0 (true) and enters the warning block
