@@ -488,7 +488,7 @@ if [ "$RENEW_SETTINGS" = true ]; then
                 fi
                 if sudo lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN -t >/dev/null ; then
                     warn "Port $VALUE_DEF_VALUE_PORT is already occupied!"
-                    lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN
+                    sudo lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN
                     echo -e "${YELLOW}Please choose a different port or stop the service above OR Turn OFF current Proxy ${NC}"
                 else
                     info "Port $VALUE_DEF_VALUE_PORT is available."
