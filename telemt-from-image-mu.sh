@@ -2,8 +2,15 @@
 
 # Deployment script for Docker image for Telemt - a fast Rust-based MTProxy (MTProto) server
 # telemt-from-image-mu.sh # 2026-04-06
-# Changelog: ip4, random url, multi user, ad_tag, metrics
+# Changelog: ip4, random url, multi user, ad_tag, metrics, port?
 set -o pipefail
+
+# Check for root privileges using your new err function
+if [[ $EUID -ne 0 ]]; then
+    err "This script must be run as root!"; echo -e "${YELLOW}Please use: sudo bash $0${NC}"; exit 1
+fi
+
+
 # --- Docker images: --------------------------------------------
 # 1 # Build https://github.com/telemt/telemt by whn0thacked = latest
 IMAGE_NAME="whn0thacked/telemt-docker:latest" # https://github.com/An0nX/telemt-docker/blob/master/README.md
