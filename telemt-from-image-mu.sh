@@ -475,26 +475,29 @@ else
 fi
 
 if [ "$RENEW_SETTINGS" = true ]; then
-            # Port # Start a loop to ensure the selected port is actually available
+
+            # Port # Start a loop to ensure the selected port is actually available            
             while true; do
-            # read -p "[?] Enter port (default $VALUE_DEF_VALUE_PORT): " input_port
-            ask "Enter port (default $VALUE_DEF_VALUE_PORT): "; read -r input_port
+                ask "Enter port (default $VALUE_DEF_VALUE_PORT): "; read -r input_port
                 VALUE_DEF_VALUE_PORT=${input_port:-$VALUE_DEF_VALUE_PORT}
+                
                 # Check if port is privileged (<1024) and script is NOT running as root
                 if [[ "$VALUE_DEF_VALUE_PORT" -lt 1024 ]]; then
                     warn "Port $VALUE_DEF_VALUE_PORT is privileged (needs root). Might not be able to verify if occupied."
                     echo -e "${YELLOW}  Please check manually or use port > 1024${NC}"
                     # continue
                 fi
+                # Occupancy check. If lsof finds a process, it returns 0 (true) and enters the warning block
                 if sudo lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN -t >/dev/null ; then
                     warn "Port $VALUE_DEF_VALUE_PORT is already occupied!"
                     sudo lsof -i :"$VALUE_DEF_VALUE_PORT" -sTCP:LISTEN
                     echo -e "${YELLOW}Please choose a different port or stop the service above OR Turn OFF current Proxy ${NC}"
                 else
                     info "Port $VALUE_DEF_VALUE_PORT is available."
-                    break
+                    break # PORT IS FREE - exit the loop
                 fi
             done
+            
             ask "Enter domain (default $VALUE_DEF_SITE): "; read -r input_site
             VALUE_DEF_SITE=${input_site:-$VALUE_DEF_SITE}
             # Display connection details for the user before Ad_tag prompt
