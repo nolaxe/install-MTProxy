@@ -88,7 +88,7 @@ bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/te
    (или делаем ярлык, вставляем логин\ip\пароль в свойства ярыка `..\putty_portable.exe root@YOUR_IP_HERE -pw your_pas_here`, не надо будет вводить снова)
 3) Вставляем в терминал строку
 ```
-bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image.sh")
+bash <(curl -s "https://raw.githubusercontent.com/nolaxe/install-MTProxy/main/telemt-from-image-mu.sh")
 ```
 копировать, пкм в поле терминала вставит текст из буфера, ввод  
 <img width="519" height="213" alt="image" src="https://github.com/user-attachments/assets/8e825430-5714-460e-8595-7a82cc9b5633" />  
