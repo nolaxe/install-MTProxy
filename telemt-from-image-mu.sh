@@ -276,6 +276,11 @@ services:
        nofile:
          soft: 65536
          hard: 65536
+    logging:
+       driver: json-file
+       options:
+         max-size: "10m"
+         max-file: "3"
 EOF
 echo -e "${GREEN}File $FILE_CONFIG_COMPOSE has been updated.${NC}"
 }
