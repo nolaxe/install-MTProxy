@@ -1,4 +1,10 @@
-!решение не работает! avg2026
+> [!NOTE]
+> ! решение не работает ! avg2026  
+> "Клиенты Telegram подвергаются блокировке по JA3-отпечатку; мы ищем варианты решения этой проблемы"
+
+
+
+
 
 [EN](https://github.com/nolaxe/install-MTProxy/blob/main/README-EN.md)  |  [RU](https://github.com/nolaxe/install-MTProxy/blob/main/README.md)    
 <img width="37" height="37" alt="image" src="https://github.com/user-attachments/assets/a25adede-03fd-45a9-a07a-befe34a65021" />   |  TLDR: VPS + скрипт ниже = ускорение тг
